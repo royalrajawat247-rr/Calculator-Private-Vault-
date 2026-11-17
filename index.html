@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B1020">
+<title>Royal Calculator Vault</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--bg:#0B1020;--card:#151D33;--card2:#1F2A47;--tx:#EAF0FF;--mut:#8A94B0;--gold:#F5B942;--em:#22C58B;--red:#F87171;--line:#26324F;--nav:#0E1528}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg)}
+body{color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;font-size:15px;overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+button:disabled{opacity:.45}
+input,textarea,select{font:inherit;color:inherit;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px;width:100%;outline:none}
+input:focus,textarea:focus{border-color:var(--gold)}
+.screen{position:fixed;inset:0;display:none;flex-direction:column;max-width:520px;margin:0 auto;background:var(--bg)}
+.screen.on{display:flex}
+/* ---- calculator lock ---- */
+#calc{padding:calc(20px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom));justify-content:flex-end}
+.cdisp{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;padding:10px 6px 14px;min-height:0;overflow:hidden}
+#hint{color:var(--mut);font-size:13px;margin-bottom:auto;align-self:flex-start;padding-top:6px}
+#pv{color:var(--mut);font-size:20px;min-height:26px;word-break:break-all;text-align:right}
+#expr{font-size:44px;font-weight:300;word-break:break-all;text-align:right;line-height:1.15;min-height:52px}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-bottom:6px}
+.k{height:72px;border-radius:50%;background:var(--card);font-size:26px;font-weight:500;display:grid;place-items:center;user-select:none}
+.k.op{color:var(--gold);background:var(--card2)}
+.k.fn{color:var(--tx);background:var(--card2);font-size:22px}
+.k.eq{background:var(--gold);color:#111}
+.k.z{grid-column:span 2;border-radius:40px;justify-content:start;padding-left:30px;display:flex;align-items:center}
+.k:active{transform:scale(.95)}
+/* ---- vault ---- */
+#vault{padding-top:env(safe-area-inset-top)}
+.vtop{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+.vtop .brand{flex:1;color:var(--gold);font-weight:800;font-size:18px}
+.ib{width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:17px}
+.main{flex:1;overflow-y:auto;padding:4px 16px 16px;-webkit-overflow-scrolling:touch}
+.page{display:none}
+.page.on{display:block}
+.folders{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 14px}
+.fold{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 8px;text-align:center}
+.fold .fi{font-size:34px}
+.fold b{display:block;font-size:13px;margin-top:6px}
+.fold span{color:var(--mut);font-size:11px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.card.gl{border-color:#F5B94266;background:linear-gradient(135deg,#1F2A47,#151D33)}
+.muted{color:var(--mut);font-size:12px;line-height:1.5}
+.gold{color:var(--gold)}
+.btn{padding:14px;border-radius:14px;font-weight:800;background:var(--gold);color:#111;text-align:center;display:block;width:100%}
+.btn2{background:var(--card2);border:1px solid var(--gold);color:var(--gold)}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.thumb{aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--card2);position:relative}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.item{display:flex;gap:10px;align-items:center;padding:12px;border-radius:14px;background:var(--card);border:1px solid var(--line);margin-bottom:8px;cursor:pointer}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tabs{display:flex;gap:8px;margin-bottom:12px}
+.tabs button{flex:1;padding:10px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--mut);font-weight:700}
+.tabs button.on{color:var(--gold);border-color:var(--gold)}
+.nav{display:flex;background:var(--nav);border-top:1px solid var(--line);padding:6px 0 calc(6px + env(safe-area-inset-bottom))}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--mut);padding:4px}
+.nav button.on{color:var(--gold);font-weight:700}
+.nav .ico{font-size:19px}
+.banner{height:50px;margin:6px 16px;border:1px dashed var(--mut);border-radius:10px;display:grid;place-items:center;font-size:12px;color:var(--mut);flex:0 0 auto}
+.toggle{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.toggle input{width:auto;accent-color:var(--gold);transform:scale(1.3)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:flex-end;justify-content:center;z-index:40}
+.modal.on{display:flex}
+.sheet{background:var(--card);width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:18px;max-height:88vh;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.viewer{position:fixed;inset:0;background:#000;z-index:45;display:none;flex-direction:column;align-items:center;justify-content:center}
+.viewer.on{display:flex}
+.viewer img{max-width:100%;max-height:82vh;object-fit:contain}
+.toast{position:fixed;left:50%;bottom:150px;transform:translateX(-50%) translateY(20px);background:var(--gold);color:#111;padding:10px 16px;border-radius:12px;font-weight:700;opacity:0;transition:.25s;pointer-events:none;z-index:60;max-width:90%;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.warn{border:1px solid var(--red);color:var(--red);border-radius:14px;padding:12px;font-size:13px;line-height:1.5;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<!-- CALCULATOR (lock screen) -->
+<div class="screen on" id="calc">
+  <div class="cdisp">
+    <div id="hint">Secret code type karke = dabayein</div>
+    <div id="pv"></div>
+    <div id="expr">0</div>
+  </div>
+  <div class="keys" id="keys"></div>
+</div>
+
+<!-- VAULT -->
+<div class="screen" id="vault">
+  <div class="vtop">
+    <span class="brand">🛡️ Royal Calculator Vault</span>
+    <button class="ib" id="lockBtn" aria-label="Lock karein">🔒</button>
+  </div>
+  <div class="main" id="main">
+    <section class="page on" id="p-home">
+      <div class="folders">
+        <button class="fold" data-go="photos"><div class="fi">🖼️</div><b>Private Gallery</b><span id="cntP">0 photos</span></button>
+        <button class="fold" data-go="notes"><div class="fi">📝</div><b>Secret Notes</b><span id="cntN">0 notes</span></button>
+        <button class="fold" data-go="backup"><div class="fi">🔐</div><b>Secure Backup</b><span>encrypted</span></button>
+      </div>
+      <div class="card gl">
+        <b>Vault ka status</b>
+        <div class="muted" id="stat" style="margin-top:6px"></div>
+      </div>
+      <div class="row" style="margin-bottom:12px">
+        <button class="btn" data-go="photos">+ Photo</button>
+        <button class="btn btn2" data-go="notes">+ Note / Diary</button>
+      </div>
+      <h3 style="margin:14px 2px 8px;font-size:15px">Latest</h3>
+      <div id="recent"></div>
+    </section>
+
+    <section class="page" id="p-photos">
+      <div class="row" style="margin-bottom:12px"><button class="btn" id="addPhoto">+ Photo add karein</button></div>
+      <div class="grid" id="grid"></div>
+      <p class="muted" id="emptyP" style="text-align:center;margin-top:20px"></p>
+    </section>
+
+    <section class="page" id="p-notes">
+      <div class="tabs"><button class="on" data-tab="note">📝 Notes</button><button data-tab="diary">📖 Diary</button></div>
+      <div class="row" style="margin-bottom:12px"><button class="btn" id="addNote">+ Naya likhein</button></div>
+      <div id="nlist"></div>
+    </section>
+
+    <section class="page" id="p-backup">
+      <div class="warn">⚠️ Phone badalne, app delete karne ya browser data clear karne par data chala jayega. Pehle backup lein aur file safe rakhein.</div>
+      <div class="card">
+        <b>Encrypted backup</b>
+        <div class="muted" style="margin:6px 0 12px">Backup file aapke secret code se encrypt hoti hai (AES-256). Restore ke liye wahi code chahiye.</div>
+        <button class="btn" id="bkBtn">🔐 Backup file banayein</button>
+        <div class="muted" id="lastBk" style="margin-top:8px"></div>
+      </div>
+      <div class="card">
+        <b>Restore</b>
+        <div class="muted" style="margin:6px 0 12px">Purani .cvault file chunein aur uska secret code dalein. Existing items ke saath merge hoga.</div>
+        <button class="btn btn2" id="rsBtn">📂 Backup file restore karein</button>
+      </div>
+    </section>
+
+    <section class="page" id="p-set">
+      <div class="card">
+        <div class="toggle"><span>Auto-lock (app chhodne par)</span><input type="checkbox" id="autoLock"></div>
+        <div style="margin-top:14px"><button class="btn btn2" id="pinChg">Secret code badlein</button></div>
+        <div style="margin-top:10px"><button class="btn btn2" id="lockNow">Abhi lock karein</button></div>
+      </div>
+      <div class="card">
+        <b>👑 Ads hatayein</b>
+        <div class="muted" style="margin:6px 0 12px">Ads hatane ka plan: ₹99 lifetime / ₹49 weekly.</div>
+        <button class="btn" id="planBtn">Plans dekhein</button>
+      </div>
+      <div class="card muted">Royal Calculator Vault v1.0. Sab data is phone ke browser mein hai. Koi server nahi, koi account nahi.</div>
+    </section>
+  </div>
+  <div class="banner">📢 Ad space (sirf native app mein dikhega)</div>
+  <nav class="nav">
+    <button class="on" data-p="home"><span class="ico">🛡️</span>Vault</button>
+    <button data-p="photos"><span class="ico">🖼️</span>Photos</button>
+    <button data-p="notes"><span class="ico">📝</span>Notes</button>
+    <button data-p="set"><span class="ico">⚙️</span>Settings</button>
+  </nav>
+</div>
+
+<!-- Note / diary editor -->
+<div class="modal" id="mNote"><div class="sheet">
+  <b id="neTitle">Naya note</b>
+  <select id="neType"><option value="note">📝 Note</option><option value="diary">📖 Diary</option></select>
+  <input id="neName" placeholder="Title">
+  <input id="neDate" type="date" style="display:none">
+  <textarea id="neText" rows="8" placeholder="Yahan likhein…" style="resize:vertical"></textarea>
+  <div class="row"><button class="btn" id="neSave">Save</button><button class="btn btn2" id="neCancel">Cancel</button></div>
+  <button class="btn btn2" id="neDel" style="border-color:var(--red);color:var(--red)">🗑️ Delete</button>
+</div></div>
+
+<!-- Password prompt (restore) -->
+<div class="modal" id="mPw"><div class="sheet">
+  <b id="pwTitle">Secret code</b>
+  <div class="muted" id="pwMsg"></div>
+  <input id="pwIn" type="password" inputmode="numeric" placeholder="Secret code">
+  <div class="row"><button class="btn" id="pwOk">OK</button><button class="btn btn2" id="pwNo">Cancel</button></div>
+</div></div>
+
+<!-- Plans -->
+<div class="modal" id="mPlans"><div class="sheet">
+  <b>👑 Ads hatayein</b>
+  <div class="row"><div class="card" style="text-align:center"><b class="gold" style="font-size:22px">₹49</b><div class="muted">/ week</div></div><div class="card gl" style="text-align:center"><b class="gold" style="font-size:22px">₹99</b><div class="muted">lifetime</div></div></div>
+  <button class="btn btn2" disabled>Payment abhi on nahi hai — jald</button>
+  <p class="muted">Abhi koi payment nahi liya jata. Store billing jurne par yahan asli plan on hoga.</p>
+  <button class="btn btn2" data-close="mPlans">Band karein</button>
+</div></div>
+
+<!-- Photo viewer -->
+<div class="viewer" id="viewer">
+  <img id="vImg" alt="">
+  <div class="row" style="width:min(90%,400px);margin-top:14px"><button class="btn btn2" id="vDel" style="border-color:var(--red);color:var(--red)">🗑️ Delete</button><button class="btn" id="vClose">Band karein</button></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="fPhoto" accept="image/*" multiple hidden>
+<input type="file" id="fRestore" accept=".cvault,application/json" hidden>
+
+<script>
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+const unhex=h=>Uint8Array.from(h.match(/../g).map(x=>parseInt(x,16)));
+const b64=buf=>{let s='';for(const x of new Uint8Array(buf))s+=String.fromCharCode(x);return btoa(s)};
+const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LS={
+  get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('Storage problem hai');return false}},
+  del(k){try{localStorage.removeItem(k)}catch(e){}}
+};
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2200)}
+
+/* ---------- INDEXEDDB (vault items) ---------- */
+let dbP=null;
+function db(){
+  return dbP||=new Promise((res,rej)=>{
+    const r=indexedDB.open('cvault',1);
+    r.onupgradeneeded=()=>r.result.createObjectStore('items',{keyPath:'id'});
+    r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);
+  });
+}
+async function tx(mode,fn){
+  const d=await db();
+  return new Promise((res,rej)=>{
+    const t=d.transaction('items',mode);const st=t.objectStore('items');
+    const req=fn(st);
+    t.oncomplete=()=>res(req?req.result:undefined);t.onerror=()=>rej(t.error);
+  });
+}
+const dbAll=()=>tx('readonly',s=>s.getAll());
+const dbPut=it=>tx('readwrite',s=>s.put(it));
+const dbDel=id=>tx('readwrite',s=>s.delete(id));
+
+/* ---------- PIN (PBKDF2) ---------- */
+let items=[], sessionPin=null, mode='unlock', pendingPin=null, fails=0, lockedUntil=0, editId=null, pwResolve=null, viewId=null;
+const pinRec=()=>LS.get('cv_pin',null);
+async function derive(pin,salt,usage){
+  const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveBits','deriveKey']);
+  const params={name:'PBKDF2',salt,iterations:150000,hash:'SHA-256'};
+  if(usage==='bits')return crypto.subtle.deriveBits(params,base,256);
+  return crypto.subtle.deriveKey(params,base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+}
+async function makePinRec(pin){
+  const salt=crypto.getRandomValues(new Uint8Array(16));
+  return{h:hex(await derive(pin,salt,'bits')),s:hex(salt)};
+}
+async function checkPin(pin){
+  const r=pinRec();if(!r)return false;
+  return hex(await derive(pin,unhex(r.s),'bits'))===r.h;
+}
+
+/* ---------- CALCULATOR ---------- */
+const KEYS=[
+  ['C','fn'],['⌫','fn'],['%','op'],['÷','op'],
+  ['7',''],['8',''],['9',''],['×','op'],
+  ['4',''],['5',''],['6',''],['−','op'],
+  ['1',''],['2',''],['3',''],['+','op'],
+  ['0','z'],['.',''],['=','eq']
+];
+const SYM={'÷':'/','×':'*','−':'-'};
+let entry='';
+function buildKeys(){
+  $('#keys').innerHTML=KEYS.map(([k,c])=>`<button class="k ${c}" data-key="${k}">${k}</button>`).join('');
+}
+function evalExpr(src){
+  const s=src.replace(/\s/g,'');let i=0;
+  const bad=()=>{throw new Error('bad')};
+  function num(){
+    const m=s.slice(i).match(/^(\d+\.?\d*|\.\d+)/);if(!m)bad();
+    i+=m[0].length;let v=parseFloat(m[0]);
+    while(s[i]==='%'){v/=100;i++}
+    return v;
+  }
+  function factor(){if(s[i]==='-'){i++;return -factor()}return num()}
+  function term(){
+    let v=factor();
+    while(s[i]==='*'||s[i]==='/'){const op=s[i++];const r=factor();
+      if(op==='*')v*=r;else{if(r===0)bad();v/=r}}
+    return v;
+  }
+  function expr(){
+    let v=term();
+    while(s[i]==='+'||s[i]==='-'){const op=s[i++];const r=term();v=op==='+'?v+r:v-r}
+    return v;
+  }
+  const v=expr();if(i!==s.length||!isFinite(v))bad();
+  return Math.round(v*1e10)/1e10;
+}
+function showEntry(){
+  $('#expr').textContent=entry.replace(/\*/g,'×').replace(/\//g,'÷').replace(/-/g,'−')||'0';
+  let pv='';
+  if(entry&&/[\d%)]$/.test(entry)&&!/^\d{4,8}$/.test(entry)){try{pv='= '+evalExpr(entry)}catch(e){}}
+  $('#pv').textContent=pv;
+}
+function setHint(t){$('#hint').textContent=t}
+function pressKey(k){
+  if(k==='C'){entry='';setHint(mode==='unlock'?'Secret code type karke = dabayein':mode==='setup1'?'Naya secret code (4–8 digits) type karke = dabayein':'Wahi code dobara = dabayein');showEntry();return}
+  if(k==='⌫'){entry=entry.slice(0,-1);showEntry();return}
+  if(k==='='){onEquals();return}
+  const ch=SYM[k]||k;
+  if('+-*/%'.includes(ch)){
+    if(!entry&&ch!=='-'){return}
+    if(/[+\-*/]$/.test(entry)){entry=entry.slice(0,-1)}
+  }
+  if(ch==='.'){const last=entry.split(/[+\-*/%]/).pop();if(last.includes('.'))return}
+  if(entry.length>=30)return;
+  entry+=ch;showEntry();
+}
+async function onEquals(){
+  const raw=entry;
+  if(mode==='setup1'){
+    if(/^\d{4,8}$/.test(raw)){pendingPin=raw;mode='setup2';entry='';setHint('Dobara wahi code = dabayein');showEntry();}
+    else{setHint('Code sirf 4 se 8 digits ka ho');}
+    return;
+  }
+  if(mode==='setup2'){
+    if(raw===pendingPin){
+      LS.set('cv_pin',await makePinRec(raw));LS.del('cv_fails');
+      entry='';pendingPin=null;mode='unlock';setHint('Code save ho gaya ✅');showEntry();
+      openVault(raw);
+    }else{
+      mode='setup1';pendingPin=null;entry='';setHint('Match nahi hua. Naya code dobara type karein');showEntry();
+    }
+    return;
+  }
+  // unlock mode
+  if(Date.now()<lockedUntil){setHint('Bahut galat koshish. Thodi der baad try karein');return}
+  if(/^\d{4,8}$/.test(raw)&&pinRec()){
+    if(await checkPin(raw)){fails=0;entry='';showEntry();setHint('Secret code type karke = dabayein');openVault(raw);return}
+    fails++;
+    if(fails>=5){fails=0;lockedUntil=Date.now()+30000;setHint('5 galat koshish. 30 second ruk kar try karein');}
+  }
+  try{
+    const v=evalExpr(raw);
+    entry=String(v);showEntry();
+    $('#pv').textContent='';
+  }catch(e){
+    if(raw)setHint('Expression adhoora hai');
+  }
+}
+
+/* ---------- VAULT: open/lock ---------- */
+async function openVault(pin){
+  sessionPin=pin;
+  items=await dbAll();
+  $('#calc').classList.remove('on');
+  $('#vault').classList.add('on');
+  go('home');
+}
+function lockVault(){
+  sessionPin=null;items=[];
+  $$('#grid img').forEach(i=>URL.revokeObjectURL(i.src));
+  $('#grid').innerHTML='';
+  $('#vault').classList.remove('on');
+  $('#calc').classList.add('on');
+  entry='';mode=pinRec()?'unlock':'setup1';
+  setHint(mode==='unlock'?'Secret code type karke = dabayein':'Naya secret code (4–8 digits) type karke = dabayein');
+  showEntry();
+}
+function startSetup(){lockVault();mode='setup1';setHint('Naya secret code (4–8 digits) type karke = dabayein');showEntry()}
+
+/* ---------- VAULT PAGES ---------- */
+let curPage='home', tab='note';
+function go(p){
+  curPage=p;
+  $$('#vault .page').forEach(s=>s.classList.toggle('on',s.id==='p-'+p));
+  $$('#vault .nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  $('#main').scrollTop=0;
+  renderAll();
+}
+function renderAll(){
+  const photos=items.filter(x=>x.type==='photo'),notes=items.filter(x=>x.type==='note'),diary=items.filter(x=>x.type==='diary');
+  $('#cntP').textContent=photos.length+' photos';
+  $('#cntN').textContent=(notes.length+diary.length)+' notes';
+  $('#stat').textContent=`${photos.length} photos · ${notes.length} notes · ${diary.length} diary entries. Auto-lock: ${LS.get('cv_auto',true)?'ON':'OFF'}.`;
+  const recent=[...items].sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,5);
+  $('#recent').innerHTML=recent.length?recent.map(x=>`<div class="item" data-open="${x.id}"><span style="font-size:20px">${x.type==='photo'?'🖼️':x.type==='diary'?'📖':'📝'}</span><div class="t"><b>${esc(x.type==='photo'?x.title:(x.title||'(bina title)'))}</b><span class="muted">${x.type==='photo'?'Photo':x.type==='diary'?'Diary · '+x.date:'Note'}</span></div></div>`).join(''):'<p class="muted">Abhi kuch nahi. Photo ya note add karein.</p>';
+  renderPhotos();renderNotes();
+  $('#lastBk').textContent=LS.get('cv_lastbk',null)?'Last backup: '+LS.get('cv_lastbk',''):'Abhi tak koi backup nahi liya';
+  $('#autoLock').checked=LS.get('cv_auto',true);
+}
+function renderPhotos(){
+  $$('#grid img').forEach(i=>URL.revokeObjectURL(i.src));
+  const ph=items.filter(x=>x.type==='photo').sort((a,b)=>(b.at||0)-(a.at||0));
+  $('#grid').innerHTML=ph.map(x=>`<div class="thumb" data-view="${x.id}"><img alt=""></div>`).join('');
+  $$('#grid .thumb').forEach((el,i)=>{el.firstChild.src=URL.createObjectURL(ph[i].blob)});
+  $('#emptyP').textContent=ph.length?'':'Abhi koi photo nahi. Upar se add karein.';
+}
+function renderNotes(){
+  $$('#p-notes .tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  const list=items.filter(x=>x.type===tab).sort((a,b)=>tab==='diary'?(b.date||'').localeCompare(a.date||''):(b.at||0)-(a.at||0));
+  $('#addNote').textContent=tab==='diary'?'+ Aaj ki diary likhein':'+ Naya note';
+  $('#nlist').innerHTML=list.map(x=>`<div class="item" data-edit="${x.id}"><span style="font-size:18px">${x.type==='diary'?'📖':'📝'}</span><div class="t"><b>${esc(x.title||'(bina title)')}</b><span class="muted">${x.type==='diary'?x.date+' · ':''}${esc((x.text||'').slice(0,40))}</span></div></div>`).join('')||`<p class="muted">Abhi ${tab==='diary'?'diary':'notes'} nahi hain.</p>`;
+}
+
+/* ---------- PHOTOS ---------- */
+async function addPhotos(files){
+  let n=0;
+  for(const f of files){
+    if(!f.type.startsWith('image/'))continue;
+    const it={id:uid(),type:'photo',title:f.name,blob:f,mime:f.type,at:Date.now()};
+    await dbPut(it);items.push(it);n++;
+  }
+  toast(n?`${n} photo save ho gayi ✅`:'Koi image nahi mili');renderAll();
+}
+function viewPhoto(id){
+  const it=items.find(x=>x.id===id);if(!it)return;
+  viewId=id;
+  const u=URL.createObjectURL(it.blob);
+  $('#vImg').onload=()=>URL.revokeObjectURL(u);
+  $('#vImg').src=u;
+  $('#viewer').classList.add('on');
+}
+
+/* ---------- NOTES ---------- */
+function openEditor(id){
+  editId=id||null;
+  const it=id?items.find(x=>x.id===id):null;
+  $('#neTitle').textContent=it?'Edit karein':'Naya likhein';
+  $('#neType').value=it?it.type:tab;
+  $('#neName').value=it?it.title||'':'';
+  $('#neDate').value=it?it.date||today():today();
+  $('#neText').value=it?it.text||'':'';
+  $('#neDel').style.display=it?'':'none';
+  syncDate();
+  $('#mNote').classList.add('on');
+}
+function syncDate(){$('#neDate').style.display=$('#neType').value==='diary'?'':'none'}
+async function saveNote(){
+  const text=$('#neText').value.trim(),title=$('#neName').value.trim();
+  if(!text&&!title){toast('Kuch likhiye pehle');return}
+  const type=$('#neType').value;
+  const it=editId?items.find(x=>x.id===editId):{id:uid(),at:Date.now()};
+  Object.assign(it,{type,title,text,date:type==='diary'?$('#neDate').value||today():today()});
+  await dbPut(it);
+  if(!editId)items.push(it);
+  $('#mNote').classList.remove('on');
+  toast('Save ho gaya ✅');renderAll();
+}
+async function deleteItem(id){
+  if(!confirm('Ye delete karein? Wapas nahi aayega.'))return false;
+  await dbDel(id);items=items.filter(x=>x.id!==id);renderAll();return true;
+}
+
+/* ---------- BACKUP (AES-256-GCM, secret code se) ---------- */
+async function makeBackup(pin){
+  const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+  const plainItems=[];
+  for(const x of items){
+    if(x.blob){plainItems.push({...x,blob:undefined,blobB64:b64(await x.blob.arrayBuffer())})}
+    else plainItems.push(x);
+  }
+  const plain=new TextEncoder().encode(JSON.stringify({app:'RoyalCalculatorVault',items:plainItems}));
+  const key=await derive(pin,salt,'key');
+  const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,plain);
+  return JSON.stringify({format:'cvault',v:1,salt:hex(salt),iv:hex(iv),data:b64(ct)});
+}
+async function restoreBackup(text,pin){
+  const f=JSON.parse(text);
+  if(f.format!=='cvault')throw new Error('format');
+  const key=await derive(pin,unhex(f.salt),'key');
+  const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:unhex(f.iv)},key,unb64(f.data));
+  const d=JSON.parse(new TextDecoder().decode(plain));
+  let n=0;
+  for(const x of d.items){
+    if(!x||!x.id)continue;
+    const it={...x};
+    if(x.blobB64){it.blob=new Blob([unb64(x.blobB64)],{type:x.mime||'image/jpeg'});delete it.blobB64}
+    await dbPut(it);n++;
+  }
+  items=await dbAll();
+  return n;
+}
+function askPassword(title,msg){
+  return new Promise(res=>{
+    $('#pwTitle').textContent=title;$('#pwMsg').textContent=msg;$('#pwIn').value='';
+    $('#mPw').classList.add('on');pwResolve=res;setTimeout(()=>$('#pwIn').focus(),100);
+  });
+}
+async function doBackup(){
+  try{
+    const txt=await makeBackup(sessionPin);
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([txt],{type:'application/octet-stream'}));
+    a.download='royal-vault-'+today()+'.cvault';
+    document.body.appendChild(a);a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);
+    LS.set('cv_lastbk',today());renderAll();
+    toast('Encrypted backup download ho rahi hai');
+  }catch(e){toast('Backup nahi bana: '+e.message)}
+}
+async function doRestore(file){
+  const pin=await askPassword('Backup ka secret code','Jis code se ye backup bana tha, wahi dalein.');
+  if(!pin)return;
+  try{
+    const n=await restoreBackup(await file.text(),pin);
+    toast(`Restore ho gaya ✅ (${n} items)`);renderAll();
+  }catch(e){toast('Galat code ya kharab file hai')}
+}
+
+/* ---------- SETTINGS ---------- */
+function openPlans(){$('#mPlans').classList.add('on')}
+
+/* ---------- EVENTS ---------- */
+function wire(){
+  buildKeys();
+  $('#keys').onclick=e=>{const b=e.target.closest('[data-key]');if(b)pressKey(b.dataset.key)};
+  lockVault();
+
+  $('#lockBtn').onclick=lockVault;
+  $$('#vault [data-p]').forEach(b=>b.onclick=()=>go(b.dataset.p));
+  $('#main').addEventListener('click',e=>{
+    const g=e.target.closest('[data-go]');if(g)return go(g.dataset.go);
+    const v=e.target.closest('[data-view]');if(v)return viewPhoto(v.dataset.view);
+    const ed=e.target.closest('[data-edit]');if(ed)return openEditor(ed.dataset.edit);
+    const op=e.target.closest('[data-open]');if(op){const it=items.find(x=>x.id===op.dataset.open);if(it&&it.type!=='photo')openEditor(it.id);else if(it)viewPhoto(it.id)}
+  });
+  $$('#vault .fold,#vault .btn[data-go]').forEach(()=>{});
+  $$('#vault .btn[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+
+  $('#addPhoto').onclick=()=>$('#fPhoto').click();
+  $('#fPhoto').onchange=e=>{const f=[...e.target.files];e.target.value='';if(f.length)addPhotos(f)};
+  $('#vClose').onclick=()=>{$('#viewer').classList.remove('on');$('#vImg').src=''};
+  $('#vDel').onclick=async()=>{if(await deleteItem(viewId)){$('#viewer').classList.remove('on');$('#vImg').src=''}};
+
+  $$('#p-notes .tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;renderNotes()});
+  $('#addNote').onclick=()=>openEditor(null);
+  $('#neType').onchange=syncDate;
+  $('#neSave').onclick=saveNote;
+  $('#neCancel').onclick=()=>$('#mNote').classList.remove('on');
+  $('#neDel').onclick=async()=>{if(await deleteItem(editId))$('#mNote').classList.remove('on')};
+
+  $('#bkBtn').onclick=doBackup;
+  $('#rsBtn').onclick=()=>$('#fRestore').click();
+  $('#fRestore').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)doRestore(f)};
+  $('#pwOk').onclick=()=>{$('#mPw').classList.remove('on');pwResolve&&pwResolve($('#pwIn').value);pwResolve=null};
+  $('#pwNo').onclick=()=>{$('#mPw').classList.remove('on');pwResolve&&pwResolve(null);pwResolve=null};
+
+  $('#autoLock').onchange=e=>LS.set('cv_auto',e.target.checked);
+  $('#pinChg').onclick=startSetup;
+  $('#lockNow').onclick=lockVault;
+  $('#planBtn').onclick=openPlans;
+  $$('[data-close]').forEach(b=>b.onclick=()=>$('#'+b.dataset.close).classList.remove('on'));
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden&&sessionPin&&LS.get('cv_auto',true))lockVault();
+  });
+}
+wire();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
