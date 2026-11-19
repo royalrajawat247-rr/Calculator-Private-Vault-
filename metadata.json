@@ -1,0 +1,5 @@
+{
+  "name": "Royal Calculator Vault",
+  "description": "A discreet, client-side encrypted Calculator Vault PWA with private photo gallery, AES-256 encrypted notes and diary logs, JSON backup/restore, and full English & Hindi support.",
+  "requestFramePermissions": []
+}
