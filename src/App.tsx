@@ -58,6 +58,21 @@ export function App() {
   const [settings, setSettings] = useState<VaultSettings>(() => getStoredSettings());
   const [sessionPin, setSessionPin] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<VaultTab>('gallery');
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
+
+  const tabOrder: VaultTab[] = ['gallery', 'notes', 'backup', 'settings'];
+
+  const handleTabChange = useCallback(
+    (nextTab: VaultTab) => {
+      if (nextTab === activeTab) return;
+      triggerHaptic(12);
+      const oldIdx = tabOrder.indexOf(activeTab);
+      const newIdx = tabOrder.indexOf(nextTab);
+      setSlideDirection(newIdx > oldIdx ? 'right' : 'left');
+      setActiveTab(nextTab);
+    },
+    [activeTab]
+  );
 
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
   const [notes, setNotes] = useState<DecryptedNote[]>([]);
@@ -515,10 +530,7 @@ export function App() {
                 <button
                   key={item.key}
                   type="button"
-                  onClick={() => {
-                    triggerHaptic(12);
-                    setActiveTab(item.key);
-                  }}
+                  onClick={() => handleTabChange(item.key)}
                   className={`flex h-9 w-full items-center gap-2.5 rounded-lg px-3 text-xs font-semibold transition-colors whitespace-nowrap cursor-pointer ${
                     active
                       ? 'bg-blue-50/90 text-blue-600 border border-blue-200/80 backdrop-blur-md dark:bg-[#0F1626]/80 dark:text-blue-400 dark:border-[#24304D]/80'
@@ -544,7 +556,7 @@ export function App() {
         </aside>
 
         {/* Scrollable Content Region */}
-        <main className="min-w-0 flex-1 space-y-1.5">
+        <main className="min-w-0 flex-1 space-y-1.5 overflow-hidden">
           {/* Ultra-Slim Status Pill */}
           <div className="flex items-center">
             <div className="inline-flex items-center gap-1 rounded-full border border-emerald-200/80 dark:border-emerald-500/30 bg-emerald-50/80 dark:bg-emerald-500/15 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-emerald-800 dark:text-emerald-300 font-mono tabular-nums">
@@ -553,62 +565,69 @@ export function App() {
             </div>
           </div>
 
-          {activeTab === 'gallery' && (
-            <GalleryTab
-              items={activeGallery}
-              trashedItems={trashedGallery}
-              isLoading={isLoadingVault}
-              t={t}
-              onAddMedia={handleAddMedia}
-              onMoveToTrash={handleMoveToTrash}
-              onRestoreFromTrash={handleRestoreFromTrash}
-              onPermanentDeleteMany={handlePermanentDeleteMedia}
-              onClearTrash={handleClearTrash}
-              onNotify={showToast}
-              onBeforeFilePicker={handleBeforeFilePicker}
-            />
-          )}
-
-          {activeTab === 'notes' && (
-            <>
-              <NotesTab
-                notes={notes}
+          <div
+            key={activeTab}
+            className={`space-y-1.5 ${
+              slideDirection === 'right' ? 'animate-tab-right' : 'animate-tab-left'
+            }`}
+          >
+            {activeTab === 'gallery' && (
+              <GalleryTab
+                items={activeGallery}
+                trashedItems={trashedGallery}
                 isLoading={isLoadingVault}
                 t={t}
-                onSaveNote={handleSaveNote}
-                onDeleteNote={handleDeleteNote}
+                onAddMedia={handleAddMedia}
+                onMoveToTrash={handleMoveToTrash}
+                onRestoreFromTrash={handleRestoreFromTrash}
+                onPermanentDeleteMany={handlePermanentDeleteMedia}
+                onClearTrash={handleClearTrash}
+                onNotify={showToast}
+                onBeforeFilePicker={handleBeforeFilePicker}
+              />
+            )}
+
+            {activeTab === 'notes' && (
+              <>
+                <NotesTab
+                  notes={notes}
+                  isLoading={isLoadingVault}
+                  t={t}
+                  onSaveNote={handleSaveNote}
+                  onDeleteNote={handleDeleteNote}
+                  onNotify={showToast}
+                />
+                {/* Centered 300x250 Adsterra Display Slot ONLY in Notes Tab */}
+                <AdsterraBannerSlot t={t} />
+              </>
+            )}
+
+            {activeTab === 'backup' && (
+              <BackupTab
+                sessionPin={sessionPin}
+                gallery={activeGallery}
+                notes={notes}
+                lastBackupAt={lastBackupAt}
+                t={t}
+                onBackupExported={handleBackupExported}
+                onRestoreMerge={handleRestoreMerge}
+                onNotify={showToast}
+                onBeforeFilePicker={handleBeforeFilePicker}
+              />
+            )}
+
+            {activeTab === 'settings' && (
+              <SettingsTab
+                settings={settings}
+                hasPinRecord={!!pinRecord}
+                t={t}
+                onUpdateSettings={handleUpdateSettings}
+                onResetPasscode={handleResetPasscode}
+                onResetPinToDefault={handleResetPinToDefault}
                 onNotify={showToast}
               />
-              {/* Centered 300x250 Adsterra Display Slot ONLY in Notes Tab */}
-              <AdsterraBannerSlot t={t} />
-            </>
-          )}
-
-          {activeTab === 'backup' && (
-            <BackupTab
-              sessionPin={sessionPin}
-              gallery={activeGallery}
-              notes={notes}
-              lastBackupAt={lastBackupAt}
-              t={t}
-              onBackupExported={handleBackupExported}
-              onRestoreMerge={handleRestoreMerge}
-              onNotify={showToast}
-              onBeforeFilePicker={handleBeforeFilePicker}
-            />
-          )}
-
-          {activeTab === 'settings' && (
-            <SettingsTab
-              settings={settings}
-              hasPinRecord={!!pinRecord}
-              t={t}
-              onUpdateSettings={handleUpdateSettings}
-              onResetPasscode={handleResetPasscode}
-              onResetPinToDefault={handleResetPinToDefault}
-              onNotify={showToast}
-            />
-          )}
+            )}
+          </div>
         </main>
         </div>
       </div>
@@ -626,10 +645,7 @@ export function App() {
               <button
                 key={item.key}
                 type="button"
-                onClick={() => {
-                  triggerHaptic(12);
-                  setActiveTab(item.key);
-                }}
+                onClick={() => handleTabChange(item.key)}
                 className={`flex h-full flex-col items-center justify-center gap-0.5 px-1 transition-colors cursor-pointer ${
                   active
                     ? 'text-blue-600 dark:text-blue-400'
