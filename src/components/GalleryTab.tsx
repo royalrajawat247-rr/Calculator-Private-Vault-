@@ -39,6 +39,7 @@ type GalleryFolder = 'library' | 'trash';
 interface GalleryTabProps {
   items: GalleryItem[];
   trashedItems: GalleryItem[];
+  isLoading?: boolean;
   t: TranslationDict;
   onAddMedia: (newItems: GalleryItem[]) => Promise<boolean>;
   onMoveToTrash: (ids: string[]) => Promise<void>;
@@ -54,6 +55,7 @@ const LONG_PRESS_MS = 450;
 export const GalleryTab: React.FC<GalleryTabProps> = ({
   items,
   trashedItems,
+  isLoading = false,
   t,
   onAddMedia,
   onMoveToTrash,
@@ -593,8 +595,17 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
         </div>
       )}
 
-      {/* Sleek 2-Column App Action Grid Empty State OR Media Grid */}
-      {sortedItems.length === 0 ? (
+      {/* Shimmer Skeleton Loader OR Empty State OR Media Grid */}
+      {isLoading ? (
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-1.5 sm:gap-2">
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="aspect-square rounded-xl bg-slate-200 dark:bg-[#1A2238] animate-pulse border border-slate-300/40 dark:border-[#2B3757]/60"
+            />
+          ))}
+        </div>
+      ) : sortedItems.length === 0 ? (
         folder === 'trash' ? (
           <div className="flex items-center gap-3 rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-3 shadow-2xs">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400">

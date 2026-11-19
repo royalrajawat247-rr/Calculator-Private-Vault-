@@ -61,6 +61,7 @@ export function App() {
 
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
   const [notes, setNotes] = useState<DecryptedNote[]>([]);
+  const [isLoadingVault, setIsLoadingVault] = useState(false);
   const [lastBackupAt, setLastBackupAt] = useState<number | null>(() => getLastBackupAt());
 
   const [toast, setToast] = useState<string | null>(null);
@@ -146,9 +147,12 @@ export function App() {
 
   const handleUnlock = useCallback(
     async (pin: string) => {
+      setIsLoadingVault(true);
       await loadVaultContents(pin);
+      await new Promise((r) => setTimeout(r, 250));
       setSessionPin(pin);
       setActiveTab('gallery');
+      setIsLoadingVault(false);
       showToast(TRANSLATIONS[settings.language].calculator.unlockedToast);
     },
     [loadVaultContents, settings.language, showToast]
@@ -351,6 +355,7 @@ export function App() {
 
   const handleSetupFirstPin = useCallback(
     async (newPin: string) => {
+      setIsLoadingVault(true);
       const record: PinRecord = {
         ...(await createPinRecord(newPin)),
         isDefaultPin: false,
@@ -358,8 +363,10 @@ export function App() {
       saveStoredPinRecord(record);
       setPinRecord(record);
       await loadVaultContents(newPin);
+      await new Promise((r) => setTimeout(r, 250));
       setSessionPin(newPin);
       setActiveTab('gallery');
+      setIsLoadingVault(false);
       showToast(TRANSLATIONS[settings.language].calculator.pinSavedToast);
     },
     [loadVaultContents, settings.language, showToast]
@@ -550,6 +557,7 @@ export function App() {
             <GalleryTab
               items={activeGallery}
               trashedItems={trashedGallery}
+              isLoading={isLoadingVault}
               t={t}
               onAddMedia={handleAddMedia}
               onMoveToTrash={handleMoveToTrash}
@@ -565,6 +573,7 @@ export function App() {
             <>
               <NotesTab
                 notes={notes}
+                isLoading={isLoadingVault}
                 t={t}
                 onSaveNote={handleSaveNote}
                 onDeleteNote={handleDeleteNote}

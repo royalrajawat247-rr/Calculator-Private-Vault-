@@ -24,6 +24,7 @@ import { ConfirmDialog } from './ConfirmDialog';
 
 interface NotesTabProps {
   notes: DecryptedNote[];
+  isLoading?: boolean;
   t: TranslationDict;
   onSaveNote: (note: DecryptedNote) => Promise<boolean>;
   onDeleteNote: (id: string) => void;
@@ -34,6 +35,7 @@ const PRESET_TAGS: NoteTagPreset[] = ['work', 'personal', 'ideas', 'passwords'];
 
 export const NotesTab: React.FC<NotesTabProps> = ({
   notes,
+  isLoading = false,
   t,
   onSaveNote,
   onDeleteNote,
@@ -363,8 +365,21 @@ export const NotesTab: React.FC<NotesTabProps> = ({
         })}
       </div>
 
-      {/* Compact Quick-Action Horizontal Tiles OR Note Cards */}
-      {filteredNotes.length === 0 ? (
+      {/* Shimmer Skeleton Loader OR Empty State OR Note Cards */}
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 p-2.5 animate-pulse space-y-2"
+            >
+              <div className="h-4 bg-slate-200 dark:bg-[#1A2238] rounded w-3/4" />
+              <div className="h-3 bg-slate-200 dark:bg-[#1A2238] rounded w-1/2" />
+              <div className="h-8 bg-slate-200 dark:bg-[#1A2238] rounded w-full" />
+            </div>
+          ))}
+        </div>
+      ) : filteredNotes.length === 0 ? (
         <div className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2.5 shadow-2xs space-y-2">
           <div className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400">
