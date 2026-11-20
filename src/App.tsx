@@ -519,7 +519,7 @@ export function App() {
 
       {/* Smoothly Scrollable Workspace Above Fixed Bottom Nav */}
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <div className="mx-auto flex w-full max-w-4xl gap-3.5 px-2 sm:px-4 pt-1 pb-13 lg:pb-4">
+        <div className="mx-auto flex min-h-full w-full max-w-4xl gap-3.5 px-2 sm:px-4 pt-1 pb-13 lg:pb-4">
         {/* Desktop Navigation Rail */}
         <aside className="hidden lg:flex lg:w-48 lg:shrink-0 lg:flex-col lg:justify-between">
           <nav aria-label="Vault navigation" className="space-y-1">
@@ -556,9 +556,9 @@ export function App() {
         </aside>
 
         {/* Scrollable Content Region */}
-        <main className="min-w-0 flex-1 space-y-1 overflow-hidden">
+        <main className="min-w-0 flex-1 flex flex-col space-y-1 overflow-x-hidden">
           {/* Ultra-Slim Status Pill */}
-          <div className="flex items-center">
+          <div className="flex shrink-0 items-center">
             <div className="inline-flex items-center gap-1 rounded-full border border-emerald-200/80 dark:border-emerald-500/30 bg-emerald-50/80 dark:bg-emerald-500/15 backdrop-blur-md px-1.5 py-0.5 text-[9px] font-semibold text-emerald-800 dark:text-emerald-300 font-mono tabular-nums">
               <ShieldCheck className="h-2.5 w-2.5 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
               <span>{t.vaultStatusPill(totalItems)}</span>
@@ -567,7 +567,7 @@ export function App() {
 
           <div
             key={activeTab}
-            className={`space-y-1 ${
+            className={`flex-1 flex flex-col space-y-1 ${
               slideDirection === 'right' ? 'animate-tab-right' : 'animate-tab-left'
             }`}
           >
@@ -588,7 +588,7 @@ export function App() {
             )}
 
             {activeTab === 'notes' && (
-              <>
+              <div className="flex flex-1 flex-col justify-between gap-3">
                 <NotesTab
                   notes={notes}
                   isLoading={isLoadingVault}
@@ -597,9 +597,9 @@ export function App() {
                   onDeleteNote={handleDeleteNote}
                   onNotify={showToast}
                 />
-                {/* Centered 300x250 Adsterra Display Slot ONLY in Notes Tab */}
+                {/* Centered 300x250 Adsterra Display Slot Anchored Near Bottom Nav in Notes Tab */}
                 <AdsterraBannerSlot t={t} />
-              </>
+              </div>
             )}
 
             {activeTab === 'backup' && (

@@ -34,7 +34,7 @@ export const AdsterraBannerSlot: React.FC<AdsterraBannerSlotProps> = ({ t }) => 
   }, []);
 
   return (
-    <div className="mt-2.5 flex flex-col items-center justify-center pb-1">
+    <div className="mt-auto flex shrink-0 flex-col items-center justify-center pt-2 pb-1">
       <div
         id="adsterra-300x250-slot"
         data-adsterra-zone="300x250"
