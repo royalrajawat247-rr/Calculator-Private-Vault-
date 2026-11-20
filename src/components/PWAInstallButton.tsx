@@ -20,9 +20,9 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ t }) => {
       <button
         type="button"
         onClick={() => void install()}
-        className="inline-flex h-8 items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3 text-xs font-semibold text-white shadow-xs hover:bg-blue-700 active:scale-[0.98] whitespace-nowrap shrink-0 cursor-pointer"
+        className="inline-flex h-6.5 items-center justify-center gap-1 rounded-lg bg-blue-600 px-2 text-[10px] font-semibold text-white shadow-2xs hover:bg-blue-700 active:scale-[0.98] whitespace-nowrap shrink-0 cursor-pointer"
       >
-        <Download className="h-3.5 w-3.5" aria-hidden="true" />
+        <Download className="h-3 w-3" aria-hidden="true" />
         <span>{t.pwa.installBtn}</span>
       </button>
     );
@@ -34,9 +34,9 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ t }) => {
         <button
           type="button"
           onClick={() => setShowIOSGuide(true)}
-          className="inline-flex h-8 items-center justify-center gap-1.5 rounded-lg border border-slate-200 dark:border-[#242E49] bg-white dark:bg-[#1A2238] px-3 text-xs font-medium text-slate-800 dark:text-[#EAF0FF] hover:bg-slate-50 dark:hover:bg-[#232D49] whitespace-nowrap shrink-0 cursor-pointer"
+          className="inline-flex h-6.5 items-center justify-center gap-1 rounded-lg border border-slate-200 dark:border-[#242E49] bg-white dark:bg-[#1A2238] px-2 text-[10px] font-medium text-slate-800 dark:text-[#EAF0FF] hover:bg-slate-50 dark:hover:bg-[#232D49] whitespace-nowrap shrink-0 cursor-pointer"
         >
-          <Share className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" aria-hidden="true" />
+          <Share className="h-3 w-3 text-blue-600 dark:text-blue-400" aria-hidden="true" />
           <span>{t.pwa.iosInstallBtn}</span>
         </button>
 

@@ -204,6 +204,17 @@ export interface TranslationDict {
     wrongCurrentPinError: string;
     pinsDoNotMatchError: string;
     pinUpdatedToast: string;
+    shareCardTitle: string;
+    shareCardDesc: string;
+    shareWhatsappBtn: string;
+    shareMessageText: string;
+    moreAppsTitle: string;
+    moreAppsSubtitle: string;
+    openAppBtn: string;
+    purePdfName: string;
+    purePdfDesc: string;
+    jobReadyName: string;
+    jobReadyDesc: string;
     supportCardTitle: string;
     supportCardDesc: string;
     supportEmailBtn: string;
@@ -459,6 +470,18 @@ export const TRANSLATIONS: Record<Language, TranslationDict> = {
       wrongCurrentPinError: 'Current passcode is incorrect.',
       pinsDoNotMatchError: 'New passcodes do not match.',
       pinUpdatedToast: '4-Digit PIN saved and notes re-encrypted',
+      shareCardTitle: 'Share Royal Vault on WhatsApp',
+      shareCardDesc: 'Invite friends to lock photos, videos & notes privately offline',
+      shareWhatsappBtn: 'Share on WhatsApp',
+      shareMessageText:
+        'Check out Royal Vault — a 100% offline, AES-256 encrypted Calculator Vault to hide photos, videos, PDFs, and secret notes privately on your phone: https://calculator-royal-vault.web.app',
+      moreAppsTitle: 'More Apps by RR Tech Labs',
+      moreAppsSubtitle: '100% offline, privacy-first utility apps',
+      openAppBtn: 'Open App',
+      purePdfName: 'PurePDF',
+      purePdfDesc: 'Offline PDF Scanner & Tools',
+      jobReadyName: 'JobReady',
+      jobReadyDesc: 'Offline CV & Resume Maker',
       supportCardTitle: 'RR Tech Labs • 24/7 User Support',
       supportCardDesc:
         'Direct support for Royal Vault users: royalrajawat247@gmail.com',
@@ -727,6 +750,18 @@ export const TRANSLATIONS: Record<Language, TranslationDict> = {
       wrongCurrentPinError: 'वर्तमान पासकोड गलत है।',
       pinsDoNotMatchError: 'नए पासकोड मेल नहीं खाते।',
       pinUpdatedToast: '4-अंकीय PIN सेव हो गया और नोट्स पुनः एन्क्रिप्ट हो गए',
+      shareCardTitle: 'WhatsApp पर रॉयल वॉल्ट शेयर करें',
+      shareCardDesc: 'दोस्तों के साथ 100% ऑफ़लाइन निजी वॉल्ट ऐप शेयर करें',
+      shareWhatsappBtn: 'WhatsApp पर शेयर करें',
+      shareMessageText:
+        'रॉयल वॉल्ट देखें — फ़ोटो, वीडियो, PDF और गुप्त नोट्स को ऑफ़लाइन AES-256 सुरक्षा में छुपाने वाला कैलकुलेटर वॉल्ट ऐप: https://calculator-royal-vault.web.app',
+      moreAppsTitle: 'RR Tech Labs के अन्य ऐप्स',
+      moreAppsSubtitle: '100% ऑफ़लाइन और गोपनीयता-केंद्रित ऐप्स',
+      openAppBtn: 'ऐप खोलें',
+      purePdfName: 'PurePDF',
+      purePdfDesc: 'ऑफ़लाइन PDF स्कैनर और टूल्स',
+      jobReadyName: 'JobReady',
+      jobReadyDesc: 'ऑफ़लाइन CV और रेज़्यूमे मेकर',
       supportCardTitle: 'RR Tech Labs • 24/7 उपयोगकर्ता सहायता',
       supportCardDesc: 'सीधा संपर्क ईमेल: royalrajawat247@gmail.com',
       supportEmailBtn: 'royalrajawat247@gmail.com',

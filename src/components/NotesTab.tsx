@@ -255,19 +255,19 @@ export const NotesTab: React.FC<NotesTabProps> = ({
   };
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1">
       {/* Compact Native Card Header (Royal Blue Accent) */}
-      <div className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2.5 shadow-2xs">
+      <div className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2 shadow-2xs">
         <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400">
-              <FileLock2 className="h-3.5 w-3.5" aria-hidden="true" />
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400">
+              <FileLock2 className="h-3 w-3" aria-hidden="true" />
             </span>
             <div className="min-w-0">
-              <h2 className="text-sm font-bold tracking-tight text-slate-900 dark:text-[#EAF0FF] leading-tight">
+              <h2 className="text-xs font-bold tracking-tight text-slate-900 dark:text-[#EAF0FF] leading-tight">
                 {t.notes.heading}
               </h2>
-              <p className="truncate text-[11px] text-slate-500 dark:text-[#94A3B8] leading-tight">
+              <p className="truncate text-[9.5px] text-slate-500 dark:text-[#94A3B8] leading-tight">
                 {t.notes.subheading}
               </p>
             </div>
@@ -279,22 +279,22 @@ export const NotesTab: React.FC<NotesTabProps> = ({
               triggerHaptic(12);
               openCreateEditor();
             }}
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-1 rounded-xl bg-blue-600 px-3 text-xs font-bold text-white shadow-2xs transition-transform hover:bg-blue-700 active:scale-95 whitespace-nowrap cursor-pointer"
+            className="inline-flex h-7.5 shrink-0 items-center justify-center gap-1 rounded-lg bg-blue-600 px-2.5 text-[11px] font-bold text-white shadow-2xs transition-transform hover:bg-blue-700 active:scale-95 whitespace-nowrap cursor-pointer"
           >
-            <Plus className="h-3.5 w-3.5 stroke-[2.5]" aria-hidden="true" />
+            <Plus className="h-3 w-3 stroke-[2.5]" aria-hidden="true" />
             <span>{t.notes.newEntryBtn}</span>
           </button>
         </div>
 
-        <div className="mt-2 flex flex-wrap items-center justify-between gap-1.5 pt-1.5 border-t border-slate-100 dark:border-[#1E2740]">
+        <div className="mt-1.5 flex flex-wrap items-center justify-between gap-1 pt-1.5 border-t border-slate-100 dark:border-[#1E2740]">
           {/* Slim Modern AES-256 Counter Chip */}
-          <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 dark:bg-blue-500/15 border border-blue-200/80 dark:border-blue-500/30 px-2 py-0.5 font-mono tabular-nums text-[10px] font-semibold text-blue-700 dark:text-blue-300">
+          <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 dark:bg-blue-500/15 border border-blue-200/80 dark:border-blue-500/30 px-1.5 py-0.5 font-mono tabular-nums text-[9px] font-semibold text-blue-700 dark:text-blue-300">
             <FileLock2 className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
             <span>{t.notes.countChip(notes.length)}</span>
           </span>
 
           {/* Segmented Type Filter */}
-          <div className="inline-flex items-center gap-0.5 rounded-lg border border-slate-200 dark:border-[#242E49] bg-slate-100 dark:bg-[#0A0E1A] p-0.5">
+          <div className="inline-flex items-center gap-0.5 rounded-md border border-slate-200 dark:border-[#242E49] bg-slate-100 dark:bg-[#0A0E1A] p-0.5">
             {(
               [
                 { key: 'all', label: t.notes.filterAll },
@@ -311,7 +311,7 @@ export const NotesTab: React.FC<NotesTabProps> = ({
                     triggerHaptic(10);
                     setFilter(tab.key);
                   }}
-                  className={`h-6 rounded-md px-2 text-[10.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
+                  className={`h-5 rounded px-1.5 text-[9.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
                     active
                       ? 'bg-white text-blue-600 shadow-2xs dark:bg-[#1A2238] dark:text-blue-400'
                       : 'text-slate-600 hover:text-slate-900 dark:text-[#94A3B8] dark:hover:text-[#EAF0FF]'
@@ -333,7 +333,7 @@ export const NotesTab: React.FC<NotesTabProps> = ({
             triggerHaptic(10);
             setTagFilter('all');
           }}
-          className={`inline-flex h-6.5 shrink-0 items-center gap-1 rounded-full px-2.5 text-[10.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
+          className={`inline-flex h-5.5 shrink-0 items-center gap-1 rounded-full px-2 text-[9.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
             tagFilter === 'all'
               ? 'bg-blue-600 text-white shadow-2xs'
               : 'border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md text-slate-600 dark:text-[#94A3B8] hover:text-slate-900 dark:hover:text-[#EAF0FF]'
@@ -353,7 +353,7 @@ export const NotesTab: React.FC<NotesTabProps> = ({
                 triggerHaptic(10);
                 setTagFilter(active ? 'all' : tagKey);
               }}
-              className={`inline-flex h-6.5 shrink-0 items-center rounded-full px-2.5 text-[10.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
+              className={`inline-flex h-5.5 shrink-0 items-center rounded-full px-2 text-[9.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
                 active
                   ? 'bg-blue-600 text-white shadow-2xs'
                   : 'border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md text-slate-600 dark:text-[#94A3B8] hover:border-blue-300 hover:text-blue-600 dark:hover:text-blue-400'
@@ -371,41 +371,41 @@ export const NotesTab: React.FC<NotesTabProps> = ({
           {Array.from({ length: 4 }).map((_, idx) => (
             <div
               key={idx}
-              className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 p-2.5 animate-pulse space-y-2"
+              className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 p-2 animate-pulse space-y-1.5"
             >
-              <div className="h-4 bg-slate-200 dark:bg-[#1A2238] rounded w-3/4" />
-              <div className="h-3 bg-slate-200 dark:bg-[#1A2238] rounded w-1/2" />
-              <div className="h-8 bg-slate-200 dark:bg-[#1A2238] rounded w-full" />
+              <div className="h-3.5 bg-slate-200 dark:bg-[#1A2238] rounded w-3/4" />
+              <div className="h-2.5 bg-slate-200 dark:bg-[#1A2238] rounded w-1/2" />
+              <div className="h-6 bg-slate-200 dark:bg-[#1A2238] rounded w-full" />
             </div>
           ))}
         </div>
       ) : filteredNotes.length === 0 ? (
-        <div className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2.5 shadow-2xs space-y-2">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400">
-              <FileLock2 className="h-4 w-4" aria-hidden="true" />
+        <div className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2 shadow-2xs space-y-1.5">
+          <div className="flex items-center gap-2">
+            <div className="flex h-6.5 w-6.5 shrink-0 items-center justify-center rounded-md bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400">
+              <FileLock2 className="h-3.5 w-3.5" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <h3 className="text-xs font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+              <h3 className="text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
                 {t.notes.emptyTitle}
               </h3>
-              <p className="mt-0.5 text-[11px] text-slate-500 dark:text-[#94A3B8] truncate">
+              <p className="mt-0.5 text-[9.5px] text-slate-500 dark:text-[#94A3B8] truncate">
                 {t.notes.emptyBody}
               </p>
             </div>
           </div>
 
           {/* Compact Horizontal Pill / Tile Buttons */}
-          <div className="flex flex-wrap items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-1">
             <button
               type="button"
               onClick={() => {
                 triggerHaptic(12);
                 openCreateEditor({ presetKind: 'note', presetTags: ['work'] });
               }}
-              className="inline-flex h-9 flex-1 min-w-[100px] items-center justify-center gap-1.5 rounded-xl border border-blue-200/80 dark:border-blue-500/30 bg-blue-50/85 dark:bg-blue-500/12 px-2.5 text-[11px] font-semibold text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-500/20 active:scale-[0.97] whitespace-nowrap cursor-pointer"
+              className="inline-flex h-7.5 flex-1 min-w-[92px] items-center justify-center gap-1 rounded-lg border border-blue-200/80 dark:border-blue-500/30 bg-blue-50/85 dark:bg-blue-500/12 px-2 text-[10px] font-semibold text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-500/20 active:scale-[0.97] whitespace-nowrap cursor-pointer"
             >
-              <StickyNote className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <StickyNote className="h-3 w-3 shrink-0" aria-hidden="true" />
               <span>{t.notes.quickNote}</span>
             </button>
             <button
@@ -414,9 +414,9 @@ export const NotesTab: React.FC<NotesTabProps> = ({
                 triggerHaptic(12);
                 openCreateEditor({ presetKind: 'diary', presetTags: ['personal'] });
               }}
-              className="inline-flex h-9 flex-1 min-w-[108px] items-center justify-center gap-1.5 rounded-xl border border-indigo-200/80 dark:border-indigo-500/30 bg-indigo-50/85 dark:bg-indigo-500/12 px-2.5 text-[11px] font-semibold text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 active:scale-[0.97] whitespace-nowrap cursor-pointer"
+              className="inline-flex h-7.5 flex-1 min-w-[98px] items-center justify-center gap-1 rounded-lg border border-indigo-200/80 dark:border-indigo-500/30 bg-indigo-50/85 dark:bg-indigo-500/12 px-2 text-[10px] font-semibold text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 active:scale-[0.97] whitespace-nowrap cursor-pointer"
             >
-              <BookOpen className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <BookOpen className="h-3 w-3 shrink-0" aria-hidden="true" />
               <span>{t.notes.personalDiary}</span>
             </button>
             <button
@@ -429,9 +429,9 @@ export const NotesTab: React.FC<NotesTabProps> = ({
                   presetTitle: t.notes.passwordTemplateTitle,
                 });
               }}
-              className="inline-flex h-9 flex-1 min-w-[116px] items-center justify-center gap-1.5 rounded-xl border border-emerald-200/80 dark:border-emerald-500/30 bg-emerald-50/85 dark:bg-emerald-500/12 px-2.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 active:scale-[0.97] whitespace-nowrap cursor-pointer"
+              className="inline-flex h-7.5 flex-1 min-w-[104px] items-center justify-center gap-1 rounded-lg border border-emerald-200/80 dark:border-emerald-500/30 bg-emerald-50/85 dark:bg-emerald-500/12 px-2 text-[10px] font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 active:scale-[0.97] whitespace-nowrap cursor-pointer"
             >
-              <KeyRound className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <KeyRound className="h-3 w-3 shrink-0" aria-hidden="true" />
               <span>{t.notes.passwordMemo}</span>
             </button>
           </div>
@@ -441,7 +441,7 @@ export const NotesTab: React.FC<NotesTabProps> = ({
           {filteredNotes.map((note) => (
             <div
               key={note.id}
-              className="flex flex-col justify-between rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2.5 shadow-2xs transition-colors hover:border-blue-300 dark:hover:border-blue-500/40"
+              className="flex flex-col justify-between rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2 shadow-2xs transition-colors hover:border-blue-300 dark:hover:border-blue-500/40"
             >
               <button
                 type="button"
@@ -449,22 +449,22 @@ export const NotesTab: React.FC<NotesTabProps> = ({
                   triggerHaptic(10);
                   openEditEditor(note);
                 }}
-                className="w-full text-left focus-visible:outline-2 focus-visible:outline-blue-600 rounded-lg cursor-pointer"
+                className="w-full text-left focus-visible:outline-2 focus-visible:outline-blue-600 rounded-md cursor-pointer"
               >
                 <div className="flex items-start justify-between gap-2">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-blue-50 dark:bg-[#1A2238] text-blue-600 dark:text-blue-400">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-blue-50 dark:bg-[#1A2238] text-blue-600 dark:text-blue-400">
                       {note.kind === 'diary' ? (
-                        <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
+                        <BookOpen className="h-3 w-3" aria-hidden="true" />
                       ) : (
-                        <FileLock2 className="h-3.5 w-3.5" aria-hidden="true" />
+                        <FileLock2 className="h-3 w-3" aria-hidden="true" />
                       )}
                     </span>
                     <div className="min-w-0">
-                      <h3 className="truncate text-xs font-bold text-slate-900 dark:text-[#EAF0FF]">
+                      <h3 className="truncate text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF]">
                         {note.title || t.notes.untitled}
                       </h3>
-                      <p className="mt-0.5 text-[10px] text-slate-500 dark:text-[#94A3B8] font-mono tabular-nums">
+                      <p className="mt-0.5 text-[9px] text-slate-500 dark:text-[#94A3B8] font-mono tabular-nums">
                         {note.kind === 'diary' ? t.notes.kindDiary : t.notes.kindNote} ·{' '}
                         {note.kind === 'diary'
                           ? note.entryDate
@@ -476,13 +476,13 @@ export const NotesTab: React.FC<NotesTabProps> = ({
                 </div>
 
                 {note.body && (
-                  <p className="mt-1.5 line-clamp-2 text-[11px] leading-snug text-slate-600 dark:text-[#CBD5E1]">
+                  <p className="mt-1 line-clamp-2 text-[10px] leading-snug text-slate-600 dark:text-[#CBD5E1]">
                     {note.body}
                   </p>
                 )}
 
                 {note.tags && note.tags.length > 0 && (
-                  <div className="mt-1.5 flex flex-wrap items-center gap-1 text-[10px] font-semibold text-blue-600 dark:text-blue-400">
+                  <div className="mt-1 flex flex-wrap items-center gap-1 text-[9px] font-semibold text-blue-600 dark:text-blue-400">
                     {note.tags.map((tag) => (
                       <span key={tag}>#{getTagDisplayLabel(tag)}</span>
                     ))}
@@ -490,14 +490,14 @@ export const NotesTab: React.FC<NotesTabProps> = ({
                 )}
               </button>
 
-              <div className="mt-1.5 flex items-center justify-end border-t border-slate-100 dark:border-[#1E2740] pt-1">
+              <div className="mt-1 flex items-center justify-end border-t border-slate-100 dark:border-[#1E2740] pt-0.5">
                 <button
                   type="button"
                   onClick={() => setDeleteTarget(note)}
-                  className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[11px] font-medium text-slate-500 dark:text-[#94A3B8] hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-500/15 dark:hover:text-red-400 cursor-pointer"
+                  className="inline-flex h-5.5 items-center gap-1 rounded px-1.5 text-[9.5px] font-medium text-slate-500 dark:text-[#94A3B8] hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-500/15 dark:hover:text-red-400 cursor-pointer"
                   aria-label={`${t.notes.deleteBtn}: ${note.title || t.notes.untitled}`}
                 >
-                  <Trash2 className="h-3 w-3" aria-hidden="true" />
+                  <Trash2 className="h-2.5 w-2.5" aria-hidden="true" />
                   <span>{t.common.delete}</span>
                 </button>
               </div>

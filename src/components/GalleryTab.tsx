@@ -394,19 +394,19 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
   const activeUrl = activeItem ? objectUrlMap.get(activeItem.id) || activeItem.dataUrl || '' : '';
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1">
       {/* Compact Native Card Header (Warm Gold/Amber Accent) */}
-      <div className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2.5 shadow-2xs">
+      <div className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2 shadow-2xs">
         <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400">
-              <ImagePlus className="h-3.5 w-3.5" aria-hidden="true" />
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400">
+              <ImagePlus className="h-3 w-3" aria-hidden="true" />
             </span>
             <div className="min-w-0">
-              <h2 className="text-sm font-bold tracking-tight text-slate-900 dark:text-[#EAF0FF] leading-tight">
+              <h2 className="text-xs font-bold tracking-tight text-slate-900 dark:text-[#EAF0FF] leading-tight">
                 {t.gallery.heading}
               </h2>
-              <p className="truncate text-[11px] text-slate-500 dark:text-[#94A3B8] leading-tight">
+              <p className="truncate text-[9.5px] text-slate-500 dark:text-[#94A3B8] leading-tight">
                 {t.gallery.subheading}
               </p>
             </div>
@@ -416,20 +416,20 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
             type="button"
             onClick={() => handleOpenPicker()}
             disabled={isImporting}
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-1 rounded-xl bg-amber-400 px-3 text-xs font-bold text-slate-950 shadow-2xs transition-transform hover:bg-amber-500 active:scale-95 disabled:opacity-50 whitespace-nowrap cursor-pointer"
+            className="inline-flex h-7.5 shrink-0 items-center justify-center gap-1 rounded-lg bg-amber-400 px-2.5 text-[11px] font-bold text-slate-950 shadow-2xs transition-transform hover:bg-amber-500 active:scale-95 disabled:opacity-50 whitespace-nowrap cursor-pointer"
           >
-            <Plus className="h-3.5 w-3.5 stroke-[2.5]" aria-hidden="true" />
+            <Plus className="h-3 w-3 stroke-[2.5]" aria-hidden="true" />
             <span>{isImporting ? t.gallery.importing : t.gallery.importBtn}</span>
           </button>
         </div>
 
         {/* Folder Toggle (Library vs Recently Deleted) + Storage, Sort & Select */}
-        <div className="mt-2 flex flex-wrap items-center justify-between gap-1.5 pt-1.5 border-t border-slate-100 dark:border-[#1E2740]">
-          <div className="inline-flex items-center gap-0.5 rounded-lg border border-slate-200 dark:border-[#242E49] bg-slate-100 dark:bg-[#0A0E1A] p-0.5">
+        <div className="mt-1.5 flex flex-wrap items-center justify-between gap-1 pt-1.5 border-t border-slate-100 dark:border-[#1E2740]">
+          <div className="inline-flex items-center gap-0.5 rounded-md border border-slate-200 dark:border-[#242E49] bg-slate-100 dark:bg-[#0A0E1A] p-0.5">
             <button
               type="button"
               onClick={() => switchFolder('library')}
-              className={`h-6 rounded-md px-2 text-[10.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
+              className={`h-5 rounded px-1.5 text-[9.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
                 folder === 'library'
                   ? 'bg-white text-amber-700 shadow-2xs dark:bg-[#1A2238] dark:text-amber-300'
                   : 'text-slate-600 hover:text-slate-900 dark:text-[#94A3B8] dark:hover:text-[#EAF0FF]'
@@ -440,19 +440,19 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
             <button
               type="button"
               onClick={() => switchFolder('trash')}
-              className={`inline-flex h-6 items-center gap-1 rounded-md px-2 text-[10.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
+              className={`inline-flex h-5 items-center gap-1 rounded px-1.5 text-[9.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
                 folder === 'trash'
                   ? 'bg-white text-rose-600 shadow-2xs dark:bg-[#1A2238] dark:text-rose-400'
                   : 'text-slate-600 hover:text-slate-900 dark:text-[#94A3B8] dark:hover:text-[#EAF0FF]'
               }`}
             >
-              <Trash2 className="h-3 w-3 shrink-0" aria-hidden="true" />
+              <Trash2 className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
               <span>{t.gallery.folderTrash(trashedItems.length)}</span>
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-1.5 ml-auto">
-            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 dark:bg-amber-500/15 border border-amber-200/80 dark:border-amber-500/30 px-2 py-0.5 font-mono tabular-nums text-[10px] font-semibold text-amber-800 dark:text-amber-300">
+          <div className="flex flex-wrap items-center gap-1 ml-auto">
+            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 dark:bg-amber-500/15 border border-amber-200/80 dark:border-amber-500/30 px-1.5 py-0.5 font-mono tabular-nums text-[9px] font-semibold text-amber-800 dark:text-amber-300">
               <Database className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
               <span>{t.gallery.storageChip(storageSizeText)}</span>
             </span>
@@ -460,7 +460,7 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
             {sortedItems.length > 0 && (
               <div className="relative inline-flex items-center">
                 <ArrowUpDown
-                  className="pointer-events-none absolute left-2 h-3 w-3 text-amber-600 dark:text-amber-400"
+                  className="pointer-events-none absolute left-1.5 h-2.5 w-2.5 text-amber-600 dark:text-amber-400"
                   aria-hidden="true"
                 />
                 <select
@@ -470,7 +470,7 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
                     setSortBy(e.target.value as GallerySortOrder);
                   }}
                   aria-label={t.gallery.sortLabel}
-                  className="h-6.5 rounded-lg border border-slate-200 dark:border-[#242E49] bg-slate-50 dark:bg-[#1A2238] pl-6 pr-2 text-[10.5px] font-semibold text-slate-700 dark:text-[#CBD5E1] hover:bg-slate-100 dark:hover:bg-[#232D49] focus:border-amber-500 focus:outline-none cursor-pointer"
+                  className="h-5.5 rounded-md border border-slate-200 dark:border-[#242E49] bg-slate-50 dark:bg-[#1A2238] pl-5 pr-1.5 text-[9.5px] font-semibold text-slate-700 dark:text-[#CBD5E1] hover:bg-slate-100 dark:hover:bg-[#232D49] focus:border-amber-500 focus:outline-none cursor-pointer"
                 >
                   <option value="newest">{t.gallery.sortNewest}</option>
                   <option value="oldest">{t.gallery.sortOldest}</option>
@@ -488,9 +488,9 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
                   setSelectionMode(true);
                   setSelectedIds(new Set());
                 }}
-                className="inline-flex h-6.5 items-center gap-1 rounded-lg border border-slate-200 dark:border-[#242E49] bg-slate-50 dark:bg-[#1A2238] px-2 text-[10.5px] font-semibold text-slate-700 dark:text-[#CBD5E1] hover:bg-slate-100 dark:hover:bg-[#232D49] whitespace-nowrap cursor-pointer"
+                className="inline-flex h-5.5 items-center gap-1 rounded-md border border-slate-200 dark:border-[#242E49] bg-slate-50 dark:bg-[#1A2238] px-1.5 text-[9.5px] font-semibold text-slate-700 dark:text-[#CBD5E1] hover:bg-slate-100 dark:hover:bg-[#232D49] whitespace-nowrap cursor-pointer"
               >
-                <CheckSquare className="h-3 w-3 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+                <CheckSquare className="h-2.5 w-2.5 text-amber-600 dark:text-amber-400" aria-hidden="true" />
                 <span>{t.gallery.selectBtn}</span>
               </button>
             )}
@@ -509,10 +509,10 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
 
       {/* Recently Deleted 30-Day Retention Bar + Clear Trash Button */}
       {folder === 'trash' && (
-        <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-rose-200/80 dark:border-rose-500/30 bg-rose-50/75 dark:bg-rose-500/10 backdrop-blur-md px-2.5 py-1.5 shadow-2xs">
+        <div className="flex flex-wrap items-center justify-between gap-1.5 rounded-xl border border-rose-200/80 dark:border-rose-500/30 bg-rose-50/75 dark:bg-rose-500/10 backdrop-blur-md px-2 py-1 shadow-2xs">
           <div className="flex items-center gap-1.5 min-w-0">
-            <Clock className="h-3.5 w-3.5 shrink-0 text-rose-600 dark:text-rose-400" aria-hidden="true" />
-            <p className="text-[11px] font-medium text-rose-900 dark:text-rose-200 leading-tight">
+            <Clock className="h-3 w-3 shrink-0 text-rose-600 dark:text-rose-400" aria-hidden="true" />
+            <p className="text-[10px] font-medium text-rose-900 dark:text-rose-200 leading-tight">
               {t.gallery.trashNotice}
             </p>
           </div>
@@ -523,9 +523,9 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
                 triggerHaptic(14);
                 setClearTrashOpen(true);
               }}
-              className="inline-flex h-7 shrink-0 items-center gap-1 rounded-lg bg-red-600 px-2.5 text-[11px] font-semibold text-white hover:bg-red-700 active:scale-95 whitespace-nowrap cursor-pointer"
+              className="inline-flex h-6 shrink-0 items-center gap-1 rounded-md bg-red-600 px-2 text-[10px] font-semibold text-white hover:bg-red-700 active:scale-95 whitespace-nowrap cursor-pointer"
             >
-              <Trash2 className="h-3 w-3" aria-hidden="true" />
+              <Trash2 className="h-2.5 w-2.5" aria-hidden="true" />
               <span>{t.gallery.clearTrashBtn}</span>
             </button>
           )}
@@ -534,15 +534,15 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
 
       {/* Multi-Select Bulk Action Toolbar */}
       {selectionMode && (
-        <div className="flex flex-wrap items-center justify-between gap-1.5 rounded-xl border border-amber-300 dark:border-amber-500/40 bg-amber-50/90 dark:bg-[#121829] px-2.5 py-1.5 shadow-2xs">
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-bold text-amber-800 dark:text-amber-300 font-mono tabular-nums">
+        <div className="flex flex-wrap items-center justify-between gap-1 rounded-xl border border-amber-300 dark:border-amber-500/40 bg-amber-50/90 dark:bg-[#121829] px-2 py-1 shadow-2xs">
+          <div className="flex items-center gap-1">
+            <span className="text-[10px] font-bold text-amber-800 dark:text-amber-300 font-mono tabular-nums">
               {t.gallery.selectedCount(selectedIds.size)}
             </span>
             <button
               type="button"
               onClick={handleSelectAll}
-              className="rounded-md px-2 py-0.5 text-[11px] font-semibold text-amber-700 dark:text-amber-400 hover:bg-amber-100/80 dark:hover:bg-[#1A2238] cursor-pointer"
+              className="rounded px-1.5 py-0.5 text-[10px] font-semibold text-amber-700 dark:text-amber-400 hover:bg-amber-100/80 dark:hover:bg-[#1A2238] cursor-pointer"
             >
               {selectedIds.size === sortedItems.length
                 ? t.gallery.clearSelection
@@ -550,15 +550,15 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
             </button>
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             {folder === 'trash' ? (
               <button
                 type="button"
                 disabled={selectedIds.size === 0}
                 onClick={() => void handleBulkRestore()}
-                className="inline-flex h-7 items-center gap-1 rounded-lg bg-emerald-600 px-2.5 text-[11px] font-semibold text-white hover:bg-emerald-700 disabled:opacity-40 whitespace-nowrap cursor-pointer"
+                className="inline-flex h-6 items-center gap-1 rounded-md bg-emerald-600 px-2 text-[10px] font-semibold text-white hover:bg-emerald-700 disabled:opacity-40 whitespace-nowrap cursor-pointer"
               >
-                <RotateCcw className="h-3 w-3" aria-hidden="true" />
+                <RotateCcw className="h-2.5 w-2.5" aria-hidden="true" />
                 <span>{t.gallery.restoreSelectedBtn}</span>
               </button>
             ) : (
@@ -566,9 +566,9 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
                 type="button"
                 disabled={selectedIds.size === 0}
                 onClick={handleBulkExport}
-                className="inline-flex h-7 items-center gap-1 rounded-lg bg-amber-500 px-2.5 text-[11px] font-semibold text-slate-950 hover:bg-amber-600 disabled:opacity-40 whitespace-nowrap cursor-pointer"
+                className="inline-flex h-6 items-center gap-1 rounded-md bg-amber-500 px-2 text-[10px] font-semibold text-slate-950 hover:bg-amber-600 disabled:opacity-40 whitespace-nowrap cursor-pointer"
               >
-                <Download className="h-3 w-3" aria-hidden="true" />
+                <Download className="h-2.5 w-2.5" aria-hidden="true" />
                 <span>{t.gallery.exportSelected}</span>
               </button>
             )}
@@ -577,19 +577,19 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
               type="button"
               disabled={selectedIds.size === 0}
               onClick={() => setBulkDeleteOpen(true)}
-              className="inline-flex h-7 items-center gap-1 rounded-lg bg-red-600 px-2.5 text-[11px] font-semibold text-white hover:bg-red-700 disabled:opacity-40 whitespace-nowrap cursor-pointer"
+              className="inline-flex h-6 items-center gap-1 rounded-md bg-red-600 px-2 text-[10px] font-semibold text-white hover:bg-red-700 disabled:opacity-40 whitespace-nowrap cursor-pointer"
             >
-              <Trash2 className="h-3 w-3" aria-hidden="true" />
+              <Trash2 className="h-2.5 w-2.5" aria-hidden="true" />
               <span>{t.gallery.deleteSelected}</span>
             </button>
 
             <button
               type="button"
               onClick={exitSelectionMode}
-              className="flex h-7 w-7 items-center justify-center rounded-lg border border-slate-200 dark:border-[#242E49] bg-white dark:bg-[#1A2238] text-slate-600 dark:text-[#CBD5E1] hover:bg-slate-100 cursor-pointer"
+              className="flex h-6 w-6 items-center justify-center rounded-md border border-slate-200 dark:border-[#242E49] bg-white dark:bg-[#1A2238] text-slate-600 dark:text-[#CBD5E1] hover:bg-slate-100 cursor-pointer"
               aria-label={t.common.cancel}
             >
-              <X className="h-3.5 w-3.5" />
+              <X className="h-3 w-3" />
             </button>
           </div>
         </div>
@@ -597,41 +597,41 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
 
       {/* Shimmer Skeleton Loader OR Empty State OR Media Grid */}
       {isLoading ? (
-        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-1.5 sm:gap-2">
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-1 sm:gap-1.5">
           {Array.from({ length: 6 }).map((_, idx) => (
             <div
               key={idx}
-              className="aspect-square rounded-xl bg-slate-200 dark:bg-[#1A2238] animate-pulse border border-slate-300/40 dark:border-[#2B3757]/60"
+              className="aspect-square rounded-lg bg-slate-200 dark:bg-[#1A2238] animate-pulse border border-slate-300/40 dark:border-[#2B3757]/60"
             />
           ))}
         </div>
       ) : sortedItems.length === 0 ? (
         folder === 'trash' ? (
-          <div className="flex items-center gap-3 rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-3 shadow-2xs">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400">
-              <Trash2 className="h-4.5 w-4.5" aria-hidden="true" />
+          <div className="flex items-center gap-2 rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2 shadow-2xs">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400">
+              <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <h3 className="text-xs font-bold text-slate-900 dark:text-[#EAF0FF]">
+              <h3 className="text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF]">
                 {t.gallery.emptyTrashTitle}
               </h3>
-              <p className="mt-0.5 text-[11px] text-slate-500 dark:text-[#94A3B8] leading-snug">
+              <p className="text-[9.5px] text-slate-500 dark:text-[#94A3B8] leading-snug">
                 {t.gallery.emptyTrashBody}
               </p>
             </div>
           </div>
         ) : (
-          <div className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2.5 shadow-2xs space-y-2">
+          <div className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2 shadow-2xs space-y-1.5">
             <div className="flex items-center justify-between gap-2 px-0.5">
               <div className="min-w-0">
-                <h3 className="text-xs font-bold text-slate-900 dark:text-[#EAF0FF]">
+                <h3 className="text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF]">
                   {t.gallery.emptyTitle}
                 </h3>
-                <p className="text-[10.5px] text-slate-500 dark:text-[#94A3B8] truncate">
+                <p className="text-[9.5px] text-slate-500 dark:text-[#94A3B8] truncate">
                   {t.gallery.emptyBody}
                 </p>
               </div>
-              <span className="shrink-0 rounded-full bg-amber-50 dark:bg-amber-500/15 border border-amber-200/70 dark:border-amber-500/30 px-2 py-0.5 text-[10px] font-semibold text-amber-700 dark:text-amber-300">
+              <span className="shrink-0 rounded-full bg-amber-50 dark:bg-amber-500/15 border border-amber-200/70 dark:border-amber-500/30 px-1.5 py-0.5 text-[9px] font-semibold text-amber-700 dark:text-amber-300">
                 IndexedDB
               </span>
             </div>
@@ -641,16 +641,16 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
               <button
                 type="button"
                 onClick={() => handleOpenPicker('image/*')}
-                className="flex items-center gap-2.5 rounded-xl border border-amber-200/75 dark:border-amber-500/25 bg-amber-50/75 dark:bg-amber-500/10 p-2.5 text-left transition-all hover:bg-amber-100/75 dark:hover:bg-amber-500/18 active:scale-[0.97] cursor-pointer"
+                className="flex items-center gap-2 rounded-lg border border-amber-200/75 dark:border-amber-500/25 bg-amber-50/75 dark:bg-amber-500/10 p-1.5 text-left transition-all hover:bg-amber-100/75 dark:hover:bg-amber-500/18 active:scale-[0.97] cursor-pointer"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-400/25 dark:bg-amber-400/20 text-amber-700 dark:text-amber-300">
-                  <ImageIcon className="h-4.5 w-4.5" aria-hidden="true" />
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-amber-400/25 dark:bg-amber-400/20 text-amber-700 dark:text-amber-300">
+                  <ImageIcon className="h-3.5 w-3.5" aria-hidden="true" />
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-xs font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+                  <p className="truncate text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
                     {t.gallery.quickPhotos}
                   </p>
-                  <p className="mt-0.5 truncate text-[10px] font-medium text-slate-500 dark:text-[#94A3B8]">
+                  <p className="mt-0.5 truncate text-[9px] font-medium text-slate-500 dark:text-[#94A3B8]">
                     {t.gallery.quickPhotosSub}
                   </p>
                 </div>
@@ -659,16 +659,16 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
               <button
                 type="button"
                 onClick={() => handleOpenPicker('video/*')}
-                className="flex items-center gap-2.5 rounded-xl border border-blue-200/75 dark:border-blue-500/25 bg-blue-50/75 dark:bg-blue-500/10 p-2.5 text-left transition-all hover:bg-blue-100/75 dark:hover:bg-blue-500/18 active:scale-[0.97] cursor-pointer"
+                className="flex items-center gap-2 rounded-lg border border-blue-200/75 dark:border-blue-500/25 bg-blue-50/75 dark:bg-blue-500/10 p-1.5 text-left transition-all hover:bg-blue-100/75 dark:hover:bg-blue-500/18 active:scale-[0.97] cursor-pointer"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-500/15 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400">
-                  <Film className="h-4.5 w-4.5" aria-hidden="true" />
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-blue-500/15 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400">
+                  <Film className="h-3.5 w-3.5" aria-hidden="true" />
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-xs font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+                  <p className="truncate text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
                     {t.gallery.quickVideos}
                   </p>
-                  <p className="mt-0.5 truncate text-[10px] font-medium text-slate-500 dark:text-[#94A3B8]">
+                  <p className="mt-0.5 truncate text-[9px] font-medium text-slate-500 dark:text-[#94A3B8]">
                     {t.gallery.quickVideosSub}
                   </p>
                 </div>
@@ -677,16 +677,16 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
               <button
                 type="button"
                 onClick={() => handleOpenPicker('application/pdf,.pdf')}
-                className="flex items-center gap-2.5 rounded-xl border border-indigo-200/75 dark:border-indigo-500/25 bg-indigo-50/75 dark:bg-indigo-500/10 p-2.5 text-left transition-all hover:bg-indigo-100/75 dark:hover:bg-indigo-500/18 active:scale-[0.97] cursor-pointer"
+                className="flex items-center gap-2 rounded-lg border border-indigo-200/75 dark:border-indigo-500/25 bg-indigo-50/75 dark:bg-indigo-500/10 p-1.5 text-left transition-all hover:bg-indigo-100/75 dark:hover:bg-indigo-500/18 active:scale-[0.97] cursor-pointer"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/15 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400">
-                  <FileText className="h-4.5 w-4.5" aria-hidden="true" />
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-indigo-500/15 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400">
+                  <FileText className="h-3.5 w-3.5" aria-hidden="true" />
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-xs font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+                  <p className="truncate text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
                     {t.gallery.quickPdfs}
                   </p>
-                  <p className="mt-0.5 truncate text-[10px] font-medium text-slate-500 dark:text-[#94A3B8]">
+                  <p className="mt-0.5 truncate text-[9px] font-medium text-slate-500 dark:text-[#94A3B8]">
                     {t.gallery.quickPdfsSub}
                   </p>
                 </div>
@@ -695,16 +695,16 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
               <button
                 type="button"
                 onClick={() => handleOpenPicker('image/*,video/*,application/pdf,.pdf')}
-                className="flex items-center gap-2.5 rounded-xl border border-emerald-200/75 dark:border-emerald-500/25 bg-emerald-50/75 dark:bg-emerald-500/10 p-2.5 text-left transition-all hover:bg-emerald-100/75 dark:hover:bg-emerald-500/18 active:scale-[0.97] cursor-pointer"
+                className="flex items-center gap-2 rounded-lg border border-emerald-200/75 dark:border-emerald-500/25 bg-emerald-50/75 dark:bg-emerald-500/10 p-1.5 text-left transition-all hover:bg-emerald-100/75 dark:hover:bg-emerald-500/18 active:scale-[0.97] cursor-pointer"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
-                  <FolderLock className="h-4.5 w-4.5" aria-hidden="true" />
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+                  <FolderLock className="h-3.5 w-3.5" aria-hidden="true" />
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-xs font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+                  <p className="truncate text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
                     {t.gallery.quickSecureFolder}
                   </p>
-                  <p className="mt-0.5 truncate text-[10px] font-medium text-slate-500 dark:text-[#94A3B8]">
+                  <p className="mt-0.5 truncate text-[9px] font-medium text-slate-500 dark:text-[#94A3B8]">
                     {t.gallery.quickSecureFolderSub}
                   </p>
                 </div>
@@ -713,13 +713,13 @@ export const GalleryTab: React.FC<GalleryTabProps> = ({
           </div>
         )
       ) : (
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           {!selectionMode && (
-            <p className="text-[10.5px] text-slate-400 dark:text-[#64748B] px-0.5">
+            <p className="text-[9.5px] text-slate-400 dark:text-[#64748B] px-0.5">
               {t.gallery.longPressHint}
             </p>
           )}
-          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-1.5 sm:gap-2">
+          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-1 sm:gap-1.5">
             {sortedItems.map((media) => {
               const isSelected = selectedIds.has(media.id);
               const mediaUrl = objectUrlMap.get(media.id) || media.dataUrl || '';

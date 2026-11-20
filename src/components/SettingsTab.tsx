@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
 import {
+  Briefcase,
   Check,
   ChevronDown,
   Copy,
   Crown,
+  ExternalLink,
+  FileText,
   Globe,
   Headphones,
   KeyRound,
   Mail,
   Moon,
   RotateCcw,
+  Share2,
   ShieldCheck,
   X,
 } from 'lucide-react';
 import type { Language, VaultSettings } from '../types/vault';
 import type { TranslationDict } from '../i18n/translations';
+import { triggerHaptic } from '../utils/haptics';
 import { ConfirmDialog } from './ConfirmDialog';
 import { PWAInstallButton } from './PWAInstallButton';
 
@@ -29,6 +34,8 @@ interface SettingsTabProps {
 }
 
 const SUPPORT_EMAIL = 'royalrajawat247@gmail.com';
+const PUREPDF_URL = 'https://purepdf-offline-pdf-scan-72f70.web.app';
+const JOBREADY_URL = 'https://jobready-resume-cv-maker.web.app';
 
 export const SettingsTab: React.FC<SettingsTabProps> = ({
   settings,
@@ -52,9 +59,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
   const isDark = settings.theme !== 'light';
 
   const handleToggleDark = () => {
-    if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
-      navigator.vibrate(12);
-    }
+    triggerHaptic(12);
     onUpdateSettings({
       ...settings,
       theme: isDark ? 'light' : 'cosmic',
@@ -106,14 +111,14 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
   };
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1">
       {/* Compact Page Title + Install Action */}
       <div className="flex items-center justify-between gap-2 px-0.5">
         <div>
-          <h2 className="text-sm font-bold tracking-tight text-slate-900 dark:text-[#EAF0FF] leading-tight">
+          <h2 className="text-xs font-bold tracking-tight text-slate-900 dark:text-[#EAF0FF] leading-tight">
             {t.settings.pageTitle}
           </h2>
-          <p className="text-[10.5px] text-slate-500 dark:text-[#94A3B8] leading-tight">
+          <p className="text-[9.5px] text-slate-500 dark:text-[#94A3B8] leading-tight">
             {t.settings.pageSubtitle}
           </p>
         </div>
@@ -121,26 +126,26 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
       </div>
 
       {/* Sleek Blue Gradient Hero Banner */}
-      <section className="rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 p-2.5 text-white shadow-sm">
-        <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/15 border border-white/20">
-            <Crown className="h-3.5 w-3.5 text-amber-300 fill-amber-300/30" aria-hidden="true" />
+      <section className="rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 p-2 text-white shadow-2xs">
+        <div className="flex items-center gap-1.5">
+          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-white/15 border border-white/20">
+            <Crown className="h-3 w-3 text-amber-300 fill-amber-300/30" aria-hidden="true" />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-[11.5px] font-bold tracking-wide text-white leading-tight">
+            <h3 className="text-[10.5px] font-bold tracking-wide text-white leading-tight">
               {t.settings.heroBadgeTitle}
             </h3>
-            <p className="mt-0.5 text-[10.5px] leading-tight text-blue-50/95">
+            <p className="mt-0.5 text-[9.5px] leading-tight text-blue-50/95">
               {t.settings.heroSubtitle}
             </p>
           </div>
         </div>
 
-        <div className="mt-2 flex flex-wrap gap-1 pt-1.5 border-t border-white/15">
+        <div className="mt-1.5 flex flex-wrap gap-1 pt-1 border-t border-white/15">
           {t.settings.heroChecks.map((feature) => (
             <span
               key={feature}
-              className="inline-flex items-center gap-1 rounded-md bg-white/15 px-1.5 py-0.5 text-[10px] font-medium text-white whitespace-nowrap"
+              className="inline-flex items-center gap-0.5 rounded bg-white/15 px-1.5 py-0.5 text-[9px] font-medium text-white whitespace-nowrap"
             >
               <Check className="h-2.5 w-2.5 text-amber-300 shrink-0" aria-hidden="true" />
               <span>{feature}</span>
@@ -149,19 +154,19 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
         </div>
       </section>
 
-      {/* Only 3 Sleek Compact Rows: Dark Mode, App Language, Change 4-Digit Calculator PIN */}
+      {/* Compact Controls Card: Dark Mode, App Language, 4-Digit Calculator PIN */}
       <section className="overflow-hidden rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md shadow-2xs divide-y divide-slate-100 dark:divide-[#1E2740]">
         {/* Dark Mode */}
-        <div className="flex items-center justify-between gap-2 px-3 py-2">
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="flex h-6.5 w-6.5 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-[#1A2238] text-slate-700 dark:text-blue-400">
-              <Moon className="h-3.5 w-3.5" aria-hidden="true" />
+        <div className="flex items-center justify-between gap-2 px-2.5 py-1.5">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <div className="flex h-5.5 w-5.5 shrink-0 items-center justify-center rounded-md bg-slate-100 dark:bg-[#1A2238] text-slate-700 dark:text-blue-400">
+              <Moon className="h-3 w-3" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <p className="text-xs font-semibold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+              <p className="text-[11px] font-semibold text-slate-900 dark:text-[#EAF0FF] leading-tight">
                 {t.settings.darkModeTitle}
               </p>
-              <p className="text-[10.5px] text-slate-500 dark:text-[#94A3B8] truncate">
+              <p className="text-[9.5px] text-slate-500 dark:text-[#94A3B8] truncate">
                 {t.settings.darkModeDesc}
               </p>
             </div>
@@ -172,35 +177,35 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
             aria-checked={isDark}
             onClick={handleToggleDark}
             aria-label={t.settings.darkModeTitle}
-            className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors cursor-pointer ${
+            className={`relative inline-flex h-4.5 w-8 shrink-0 items-center rounded-full transition-colors cursor-pointer ${
               isDark ? 'bg-blue-600' : 'bg-slate-200'
             }`}
           >
             <span
-              className={`inline-block h-3.5 w-3.5 rounded-full bg-white shadow-xs transition-transform ${
-                isDark ? 'translate-x-5' : 'translate-x-0.5'
+              className={`inline-block h-3 w-3 rounded-full bg-white shadow-xs transition-transform ${
+                isDark ? 'translate-x-4.5' : 'translate-x-0.5'
               }`}
             />
           </button>
         </div>
 
         {/* App Language */}
-        <div className="flex items-center justify-between gap-2 px-3 py-2">
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="flex h-6.5 w-6.5 shrink-0 items-center justify-center rounded-lg bg-sky-50 dark:bg-[#1A2238] text-sky-600 dark:text-sky-400">
-              <Globe className="h-3.5 w-3.5" aria-hidden="true" />
+        <div className="flex items-center justify-between gap-2 px-2.5 py-1.5">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <div className="flex h-5.5 w-5.5 shrink-0 items-center justify-center rounded-md bg-sky-50 dark:bg-[#1A2238] text-sky-600 dark:text-sky-400">
+              <Globe className="h-3 w-3" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <p className="text-xs font-semibold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+              <p className="text-[11px] font-semibold text-slate-900 dark:text-[#EAF0FF] leading-tight">
                 {t.settings.languageTitle}
               </p>
-              <p className="text-[10.5px] text-slate-500 dark:text-[#94A3B8] truncate">
+              <p className="text-[9.5px] text-slate-500 dark:text-[#94A3B8] truncate">
                 {t.settings.languageDesc}
               </p>
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-0.5 rounded-lg border border-slate-200 dark:border-[#242E49] bg-slate-100 dark:bg-[#0A0E1A] p-0.5 shrink-0">
+          <div className="inline-flex items-center gap-0.5 rounded-md border border-slate-200 dark:border-[#242E49] bg-slate-100 dark:bg-[#0A0E1A] p-0.5 shrink-0">
             {(['en', 'hi'] as Language[]).map((lang) => {
               const active = settings.language === lang;
               return (
@@ -208,7 +213,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                   key={lang}
                   type="button"
                   onClick={() => onUpdateSettings({ ...settings, language: lang })}
-                  className={`h-6 rounded-md px-2 text-[10.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
+                  className={`h-5 rounded px-1.5 text-[9.5px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
                     active
                       ? 'bg-blue-600 text-white shadow-2xs'
                       : 'text-slate-600 dark:text-[#94A3B8] hover:text-slate-900 dark:hover:text-[#EAF0FF]'
@@ -222,22 +227,22 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
         </div>
 
         {/* 4-Digit Calculator PIN: Save PIN & Reset PIN */}
-        <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2">
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="flex h-6.5 w-6.5 shrink-0 items-center justify-center rounded-lg bg-indigo-50 dark:bg-[#1A2238] text-indigo-600 dark:text-indigo-400">
-              <KeyRound className="h-3.5 w-3.5" aria-hidden="true" />
+        <div className="flex flex-wrap items-center justify-between gap-1.5 px-2.5 py-1.5">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <div className="flex h-5.5 w-5.5 shrink-0 items-center justify-center rounded-md bg-indigo-50 dark:bg-[#1A2238] text-indigo-600 dark:text-indigo-400">
+              <KeyRound className="h-3 w-3" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <p className="text-xs font-semibold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+              <p className="text-[11px] font-semibold text-slate-900 dark:text-[#EAF0FF] leading-tight">
                 {t.settings.changePinTitle}
               </p>
-              <p className="text-[10.5px] text-slate-500 dark:text-[#94A3B8] truncate">
+              <p className="text-[9.5px] text-slate-500 dark:text-[#94A3B8] truncate">
                 {t.settings.changePinDesc}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-1 shrink-0">
             <button
               type="button"
               onClick={() => {
@@ -247,75 +252,177 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                 setConfirmPin('');
                 setPinModalOpen(true);
               }}
-              className="inline-flex h-7 items-center rounded-lg bg-blue-600 px-2.5 text-[11px] font-semibold text-white hover:bg-blue-700 active:scale-95 whitespace-nowrap cursor-pointer"
+              className="inline-flex h-6.5 items-center rounded-md bg-blue-600 px-2 text-[10px] font-semibold text-white hover:bg-blue-700 active:scale-95 whitespace-nowrap cursor-pointer"
             >
               {t.settings.savePinBtn}
             </button>
             <button
               type="button"
               onClick={() => setResetDefaultOpen(true)}
-              className="inline-flex h-7 items-center gap-1 rounded-lg border border-slate-200 dark:border-[#242E49] bg-slate-50 dark:bg-[#1A2238] px-2.5 text-[11px] font-semibold text-slate-700 dark:text-[#CBD5E1] hover:bg-slate-100 dark:hover:bg-[#232D49] active:scale-95 whitespace-nowrap cursor-pointer"
+              className="inline-flex h-6.5 items-center gap-1 rounded-md border border-slate-200 dark:border-[#242E49] bg-slate-50 dark:bg-[#1A2238] px-2 text-[10px] font-semibold text-slate-700 dark:text-[#CBD5E1] hover:bg-slate-100 dark:hover:bg-[#232D49] active:scale-95 whitespace-nowrap cursor-pointer"
             >
-              <RotateCcw className="h-3 w-3 text-slate-500 dark:text-[#94A3B8]" aria-hidden="true" />
+              <RotateCcw className="h-2.5 w-2.5 text-slate-500 dark:text-[#94A3B8]" aria-hidden="true" />
               <span>{t.settings.resetPinBtn}</span>
             </button>
           </div>
         </div>
       </section>
 
+      {/* Card A – Share Royal Vault on WhatsApp */}
+      <section className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2 shadow-2xs">
+        <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-1.5">
+          <div className="flex items-center gap-1.5 min-w-0 flex-1">
+            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+              <Share2 className="h-3 w-3" aria-hidden="true" />
+            </div>
+            <div className="min-w-0">
+              <h3 className="text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+                {t.settings.shareCardTitle}
+              </h3>
+              <p className="text-[9.5px] text-slate-500 dark:text-[#94A3B8] leading-tight">
+                {t.settings.shareCardDesc}
+              </p>
+            </div>
+          </div>
+
+          <a
+            href={`https://wa.me/?text=${encodeURIComponent(t.settings.shareMessageText)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => triggerHaptic(12)}
+            className="inline-flex h-7 w-full sm:w-auto shrink-0 items-center justify-center gap-1 rounded-md bg-[#16A34A] hover:bg-[#15803D] active:scale-95 px-2.5 text-[10px] font-semibold text-white shadow-2xs transition-all whitespace-nowrap"
+          >
+            <Share2 className="h-3 w-3 shrink-0" aria-hidden="true" />
+            <span>{t.settings.shareWhatsappBtn}</span>
+          </a>
+        </div>
+      </section>
+
+      {/* Card B – More Apps by RR Tech Labs */}
+      <section className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2 shadow-2xs space-y-1.5">
+        <div className="flex items-center justify-between gap-2 px-0.5">
+          <div>
+            <h3 className="text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+              {t.settings.moreAppsTitle}
+            </h3>
+            <p className="text-[9.5px] text-slate-500 dark:text-[#94A3B8] leading-tight">
+              {t.settings.moreAppsSubtitle}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+          {/* PurePDF */}
+          <div className="flex items-center justify-between gap-2 rounded-lg border border-slate-200/75 dark:border-[#24304D]/80 bg-slate-50/75 dark:bg-[#141C30]/75 px-2 py-1.5">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400">
+                <FileText className="h-3 w-3" aria-hidden="true" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight truncate">
+                  {t.settings.purePdfName}
+                </p>
+                <p className="text-[9px] text-slate-500 dark:text-[#94A3B8] truncate">
+                  {t.settings.purePdfDesc}
+                </p>
+              </div>
+            </div>
+
+            <a
+              href={PUREPDF_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => triggerHaptic(12)}
+              className="inline-flex h-6.5 shrink-0 items-center gap-1 rounded-md bg-blue-600 hover:bg-blue-700 active:scale-95 px-2 text-[10px] font-semibold text-white transition-all whitespace-nowrap"
+            >
+              <span>{t.settings.openAppBtn}</span>
+              <ExternalLink className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
+            </a>
+          </div>
+
+          {/* JobReady */}
+          <div className="flex items-center justify-between gap-2 rounded-lg border border-slate-200/75 dark:border-[#24304D]/80 bg-slate-50/75 dark:bg-[#141C30]/75 px-2 py-1.5">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-indigo-50 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400">
+                <Briefcase className="h-3 w-3" aria-hidden="true" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight truncate">
+                  {t.settings.jobReadyName}
+                </p>
+                <p className="text-[9px] text-slate-500 dark:text-[#94A3B8] truncate">
+                  {t.settings.jobReadyDesc}
+                </p>
+              </div>
+            </div>
+
+            <a
+              href={JOBREADY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => triggerHaptic(12)}
+              className="inline-flex h-6.5 shrink-0 items-center gap-1 rounded-md bg-blue-600 hover:bg-blue-700 active:scale-95 px-2 text-[10px] font-semibold text-white transition-all whitespace-nowrap"
+            >
+              <span>{t.settings.openAppBtn}</span>
+              <ExternalLink className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* RR Tech Labs • 24/7 User Support Card (clickable royalrajawat247@gmail.com) */}
-      <section className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2.5 shadow-2xs space-y-1.5">
-        <div className="flex items-center gap-2">
-          <div className="flex h-6.5 w-6.5 shrink-0 items-center justify-center rounded-lg bg-indigo-50 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400">
-            <Headphones className="h-3.5 w-3.5" aria-hidden="true" />
+      <section className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2 shadow-2xs space-y-1">
+        <div className="flex items-center gap-1.5">
+          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-indigo-50 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400">
+            <Headphones className="h-3 w-3" aria-hidden="true" />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-xs font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+            <h3 className="text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
               {t.settings.supportCardTitle}
             </h3>
-            <p className="text-[10.5px] text-slate-500 dark:text-[#94A3B8] truncate">
+            <p className="text-[9.5px] text-slate-500 dark:text-[#94A3B8] truncate">
               {t.settings.supportCardDesc}
             </p>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-1">
           <a
             href={`mailto:${SUPPORT_EMAIL}?subject=Royal%20Vault%20Support`}
-            className="inline-flex h-7 items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-2.5 text-[10.5px] font-semibold text-white hover:bg-blue-700 whitespace-nowrap"
+            className="inline-flex h-6.5 items-center justify-center gap-1 rounded-md bg-blue-600 px-2 text-[9.5px] font-semibold text-white hover:bg-blue-700 whitespace-nowrap"
           >
-            <Mail className="h-3 w-3 shrink-0" aria-hidden="true" />
+            <Mail className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
             <span>{SUPPORT_EMAIL}</span>
           </a>
 
           <button
             type="button"
             onClick={() => void handleCopySupportEmail()}
-            className="inline-flex h-7 items-center justify-center gap-1 rounded-lg border border-slate-200 dark:border-[#242E49] bg-slate-50 dark:bg-[#1A2238] px-2.5 text-[10.5px] font-semibold text-slate-700 dark:text-[#EAF0FF] hover:bg-slate-100 dark:hover:bg-[#232D49] whitespace-nowrap cursor-pointer"
+            className="inline-flex h-6.5 items-center justify-center gap-1 rounded-md border border-slate-200 dark:border-[#242E49] bg-slate-50 dark:bg-[#1A2238] px-2 text-[9.5px] font-semibold text-slate-700 dark:text-[#EAF0FF] hover:bg-slate-100 dark:hover:bg-[#232D49] whitespace-nowrap cursor-pointer"
           >
-            <Copy className="h-3 w-3 text-slate-500 dark:text-[#94A3B8]" aria-hidden="true" />
+            <Copy className="h-2.5 w-2.5 text-slate-500 dark:text-[#94A3B8]" aria-hidden="true" />
             <span>{t.settings.supportCopyBtn}</span>
           </button>
         </div>
       </section>
 
       {/* 100% Local On-Device Privacy Policy & FAQs */}
-      <section className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2.5 shadow-2xs space-y-1.5">
-        <div className="flex items-center gap-2 pb-1.5 border-b border-slate-100 dark:border-[#1E2740]">
-          <div className="flex h-6.5 w-6.5 shrink-0 items-center justify-center rounded-lg bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-            <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+      <section className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2 shadow-2xs space-y-1">
+        <div className="flex items-center gap-1.5 pb-1 border-b border-slate-100 dark:border-[#1E2740]">
+          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+            <ShieldCheck className="h-3 w-3" aria-hidden="true" />
           </div>
           <div className="min-w-0">
-            <h3 className="text-xs font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
+            <h3 className="text-[11px] font-bold text-slate-900 dark:text-[#EAF0FF] leading-tight">
               {t.settings.privacyFaqTitle}
             </h3>
-            <p className="text-[10.5px] font-semibold text-emerald-700 dark:text-emerald-400 leading-tight">
+            <p className="text-[9.5px] font-semibold text-emerald-700 dark:text-emerald-400 leading-tight">
               {t.settings.privacyGuaranteeTitle}
             </p>
           </div>
         </div>
 
-        <div className="space-y-1 text-[10.5px] leading-snug text-slate-600 dark:text-[#CBD5E1]">
+        <div className="space-y-0.5 text-[9.5px] leading-snug text-slate-600 dark:text-[#CBD5E1]">
           <p>
             <strong className="font-semibold text-slate-900 dark:text-[#EAF0FF]">
               {t.settings.privacyPoint1Label}
@@ -336,7 +443,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
           </p>
         </div>
 
-        <div className="border-t border-slate-100 dark:border-[#1E2740] pt-1 divide-y divide-slate-100 dark:divide-[#1E2740]">
+        <div className="border-t border-slate-100 dark:border-[#1E2740] pt-0.5 divide-y divide-slate-100 dark:divide-[#1E2740]">
           {t.settings.faqItems.map((faq, idx) => {
             const isOpen = openFaqIdx === idx;
             return (
@@ -345,18 +452,18 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                   type="button"
                   onClick={() => setOpenFaqIdx(isOpen ? null : idx)}
                   aria-expanded={isOpen}
-                  className="flex min-h-[26px] w-full items-center justify-between gap-2 text-left text-[11px] font-semibold text-slate-900 dark:text-[#EAF0FF] cursor-pointer"
+                  className="flex min-h-[22px] w-full items-center justify-between gap-2 text-left text-[10px] font-semibold text-slate-900 dark:text-[#EAF0FF] cursor-pointer"
                 >
                   <span>{faq.q}</span>
                   <ChevronDown
-                    className={`h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform duration-200 ${
+                    className={`h-3 w-3 shrink-0 text-slate-400 transition-transform duration-200 ${
                       isOpen ? 'rotate-180 text-blue-600 dark:text-blue-400' : ''
                     }`}
                     aria-hidden="true"
                   />
                 </button>
                 {isOpen && (
-                  <p className="mt-0.5 pb-1 pr-3 text-[10.5px] leading-snug text-slate-500 dark:text-[#94A3B8]">
+                  <p className="mt-0.5 pb-0.5 pr-2 text-[9.5px] leading-snug text-slate-500 dark:text-[#94A3B8]">
                     {faq.a}
                   </p>
                 )}

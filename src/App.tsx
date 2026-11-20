@@ -437,8 +437,8 @@ export function App() {
       <HolographicBackdrop theme={settings.theme} />
       <div className="relative z-10 flex h-dvh flex-col overflow-hidden">
       {/* Sleek Native Mobile App Header */}
-      <header className="shrink-0 z-30 h-11 border-b border-slate-200/80 dark:border-[#24304D]/80 bg-white/84 dark:bg-[#090D16]/78 backdrop-blur-md pt-safe">
-        <div className="mx-auto flex h-full max-w-4xl items-center justify-between gap-2 px-2.5 sm:px-5">
+      <header className="shrink-0 z-30 h-9.5 border-b border-slate-200/80 dark:border-[#24304D]/80 bg-white/84 dark:bg-[#090D16]/78 backdrop-blur-md pt-safe">
+        <div className="mx-auto flex h-full max-w-4xl items-center justify-between gap-1.5 px-2 sm:px-4">
           {/* 1-Click Theme Switcher Logo Badge + Active Theme Pill */}
           <div className="flex items-center gap-1.5 min-w-0">
             <button
@@ -446,10 +446,10 @@ export function App() {
               onClick={handleCycleTheme}
               title={t.themes.switchTooltip}
               aria-label={t.themes.switchTooltip}
-              className="group flex items-center gap-1.5 rounded-lg pr-1 py-0.5 text-left transition-transform active:scale-95 cursor-pointer min-w-0"
+              className="group flex items-center gap-1.5 rounded-md pr-1 py-0.5 text-left transition-transform active:scale-95 cursor-pointer min-w-0"
             >
               <div
-                className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white shadow-2xs transition-colors ${
+                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-white shadow-2xs transition-colors ${
                   settings.theme === 'emerald'
                     ? 'bg-emerald-600'
                     : settings.theme === 'cosmic'
@@ -457,13 +457,13 @@ export function App() {
                       : 'bg-blue-600'
                 }`}
               >
-                <Shield className="h-3.5 w-3.5" aria-hidden="true" />
+                <Shield className="h-3 w-3" aria-hidden="true" />
               </div>
               <div className="min-w-0 leading-none">
-                <h1 className="truncate text-[13px] font-bold tracking-tight text-slate-900 dark:text-[#EAF0FF] whitespace-nowrap">
+                <h1 className="truncate text-[11.5px] font-bold tracking-tight text-slate-900 dark:text-[#EAF0FF] whitespace-nowrap">
                   {t.vaultHeaderTitle}
                 </h1>
-                <p className="mt-0.5 truncate text-[9px] font-medium text-slate-500 dark:text-[#94A3B8] whitespace-nowrap">
+                <p className="mt-0.5 truncate text-[8.5px] font-medium text-slate-500 dark:text-[#94A3B8] whitespace-nowrap">
                   {t.brandSubtitle}
                 </p>
               </div>
@@ -473,7 +473,7 @@ export function App() {
               type="button"
               onClick={handleCycleTheme}
               title={t.themes.switchTooltip}
-              className={`inline-flex h-5.5 shrink-0 items-center rounded-full border px-2 text-[9.5px] font-semibold transition-all active:scale-95 whitespace-nowrap cursor-pointer ${
+              className={`inline-flex h-5 shrink-0 items-center rounded-full border px-1.5 text-[9px] font-semibold transition-all active:scale-95 whitespace-nowrap cursor-pointer ${
                 settings.theme === 'emerald'
                   ? 'border-emerald-400/40 bg-emerald-500/15 text-emerald-300'
                   : settings.theme === 'cosmic'
@@ -495,10 +495,10 @@ export function App() {
             <button
               type="button"
               onClick={handleToggleLanguage}
-              className="inline-flex h-7 items-center gap-1 rounded-lg border border-slate-200 dark:border-[#242E49] bg-slate-50/90 dark:bg-[#121829]/85 px-2 text-[10.5px] font-semibold text-slate-700 dark:text-[#CBD5E1] hover:bg-slate-100 dark:hover:bg-[#1A2238] active:scale-95 whitespace-nowrap cursor-pointer"
+              className="inline-flex h-6 items-center gap-1 rounded-md border border-slate-200 dark:border-[#242E49] bg-slate-50/90 dark:bg-[#121829]/85 px-1.5 text-[9.5px] font-semibold text-slate-700 dark:text-[#CBD5E1] hover:bg-slate-100 dark:hover:bg-[#1A2238] active:scale-95 whitespace-nowrap cursor-pointer"
               aria-label="Toggle language"
             >
-              <Globe className="h-3 w-3 text-blue-600 dark:text-blue-400" aria-hidden="true" />
+              <Globe className="h-2.5 w-2.5 text-blue-600 dark:text-blue-400" aria-hidden="true" />
               <span>{t.langToggleLabel}</span>
             </button>
 
@@ -508,9 +508,9 @@ export function App() {
                 triggerHaptic(14);
                 lockVault();
               }}
-              className="inline-flex h-7 items-center gap-1 rounded-lg bg-slate-900 dark:bg-[#1A2238] border border-slate-900 dark:border-[#242E49] px-2 text-[10.5px] font-semibold text-white hover:bg-slate-800 dark:hover:border-blue-500 active:scale-95 whitespace-nowrap cursor-pointer"
+              className="inline-flex h-6 items-center gap-1 rounded-md bg-slate-900 dark:bg-[#1A2238] border border-slate-900 dark:border-[#242E49] px-1.5 text-[9.5px] font-semibold text-white hover:bg-slate-800 dark:hover:border-blue-500 active:scale-95 whitespace-nowrap cursor-pointer"
             >
-              <Lock className="h-3 w-3" aria-hidden="true" />
+              <Lock className="h-2.5 w-2.5" aria-hidden="true" />
               <span>{t.lockNow}</span>
             </button>
           </div>
@@ -519,9 +519,9 @@ export function App() {
 
       {/* Smoothly Scrollable Workspace Above Fixed Bottom Nav */}
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <div className="mx-auto flex w-full max-w-4xl gap-4 px-2.5 sm:px-5 pt-1.5 pb-16 lg:pb-6">
+        <div className="mx-auto flex w-full max-w-4xl gap-3.5 px-2 sm:px-4 pt-1 pb-13 lg:pb-4">
         {/* Desktop Navigation Rail */}
-        <aside className="hidden lg:flex lg:w-52 lg:shrink-0 lg:flex-col lg:justify-between">
+        <aside className="hidden lg:flex lg:w-48 lg:shrink-0 lg:flex-col lg:justify-between">
           <nav aria-label="Vault navigation" className="space-y-1">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -531,20 +531,20 @@ export function App() {
                   key={item.key}
                   type="button"
                   onClick={() => handleTabChange(item.key)}
-                  className={`flex h-9 w-full items-center gap-2.5 rounded-lg px-3 text-xs font-semibold transition-colors whitespace-nowrap cursor-pointer ${
+                  className={`flex h-8 w-full items-center gap-2 rounded-lg px-2.5 text-[11px] font-semibold transition-colors whitespace-nowrap cursor-pointer ${
                     active
                       ? 'bg-blue-50/90 text-blue-600 border border-blue-200/80 backdrop-blur-md dark:bg-[#0F1626]/80 dark:text-blue-400 dark:border-[#24304D]/80'
                       : 'text-slate-600 dark:text-[#94A3B8] hover:bg-slate-100/80 dark:hover:bg-[#0F1626]/55 hover:text-slate-900 dark:hover:text-[#EAF0FF]'
                   }`}
                 >
-                  <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                   <span>{item.label}</span>
                 </button>
               );
             })}
           </nav>
 
-          <div className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2.5 text-[11px] text-slate-500 dark:text-[#94A3B8] space-y-0.5 shadow-2xs">
+          <div className="rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/82 dark:bg-[#0F1626]/78 backdrop-blur-md p-2 text-[10px] text-slate-500 dark:text-[#94A3B8] space-y-0.5 shadow-2xs">
             <p className="font-bold text-slate-900 dark:text-[#EAF0FF]">{t.appTitle}</p>
             <p className="font-mono tabular-nums">
               {t.stats.mediaCount(activeGallery.length)} · {t.stats.notesCount(notes.length)}
@@ -556,18 +556,18 @@ export function App() {
         </aside>
 
         {/* Scrollable Content Region */}
-        <main className="min-w-0 flex-1 space-y-1.5 overflow-hidden">
+        <main className="min-w-0 flex-1 space-y-1 overflow-hidden">
           {/* Ultra-Slim Status Pill */}
           <div className="flex items-center">
-            <div className="inline-flex items-center gap-1 rounded-full border border-emerald-200/80 dark:border-emerald-500/30 bg-emerald-50/80 dark:bg-emerald-500/15 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-emerald-800 dark:text-emerald-300 font-mono tabular-nums">
-              <ShieldCheck className="h-3 w-3 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+            <div className="inline-flex items-center gap-1 rounded-full border border-emerald-200/80 dark:border-emerald-500/30 bg-emerald-50/80 dark:bg-emerald-500/15 backdrop-blur-md px-1.5 py-0.5 text-[9px] font-semibold text-emerald-800 dark:text-emerald-300 font-mono tabular-nums">
+              <ShieldCheck className="h-2.5 w-2.5 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
               <span>{t.vaultStatusPill(totalItems)}</span>
             </div>
           </div>
 
           <div
             key={activeTab}
-            className={`space-y-1.5 ${
+            className={`space-y-1 ${
               slideDirection === 'right' ? 'animate-tab-right' : 'animate-tab-left'
             }`}
           >
@@ -637,7 +637,7 @@ export function App() {
         aria-label="Mobile vault navigation"
         className="fixed bottom-0 left-0 right-0 z-30 border-t border-slate-200/80 dark:border-[#24304D]/80 bg-white/88 dark:bg-[#090D16]/85 backdrop-blur-md pb-safe lg:hidden"
       >
-        <div className="grid h-12 grid-cols-4 items-center">
+        <div className="grid h-10.5 grid-cols-4 items-center">
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = activeTab === item.key;
@@ -652,8 +652,8 @@ export function App() {
                     : 'text-slate-500 dark:text-[#94A3B8] hover:text-slate-900 dark:hover:text-[#EAF0FF]'
                 }`}
               >
-                <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span className="text-[10px] font-semibold tracking-tight leading-none whitespace-nowrap">
+                <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                <span className="text-[9.5px] font-semibold tracking-tight leading-none whitespace-nowrap">
                   {item.label}
                 </span>
               </button>
@@ -670,7 +670,7 @@ export function App() {
         <div
           role="status"
           aria-live="polite"
-          className="fixed bottom-16 lg:bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full bg-slate-900 dark:bg-blue-600 px-3.5 py-1.5 text-center text-xs font-semibold text-white shadow-xl max-w-[90vw] whitespace-nowrap"
+          className="fixed bottom-13 lg:bottom-5 left-1/2 z-50 -translate-x-1/2 rounded-full bg-slate-900 dark:bg-blue-600 px-3 py-1 text-center text-[10.5px] font-semibold text-white shadow-xl max-w-[90vw] whitespace-nowrap"
         >
           {toast}
         </div>

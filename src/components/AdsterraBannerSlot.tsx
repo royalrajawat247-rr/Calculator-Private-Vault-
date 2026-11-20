@@ -1,5 +1,4 @@
-import React from 'react';
-import { ShieldCheck } from 'lucide-react';
+import React, { useMemo } from 'react';
 import type { TranslationDict } from '../i18n/translations';
 
 interface AdsterraBannerSlotProps {
@@ -7,28 +6,52 @@ interface AdsterraBannerSlotProps {
 }
 
 export const AdsterraBannerSlot: React.FC<AdsterraBannerSlotProps> = ({ t }) => {
+  const iframeSrcDoc = useMemo(() => {
+    return [
+      '<!doctype html>',
+      '<html lang="en">',
+      '<head>',
+      '<meta charset="utf-8" />',
+      '<meta name="viewport" content="width=300, initial-scale=1.0" />',
+      '<style>',
+      '  html, body { margin: 0; padding: 0; width: 300px; height: 250px; overflow: hidden; background: transparent; display: flex; align-items: center; justify-content: center; }',
+      '</style>',
+      '</head>',
+      '<body>',
+      '<script>',
+      '  window.atOptions = {',
+      "    'key' : '14ab84bb631fc528da7f4068bbf16386',",
+      "    'format' : 'iframe',",
+      "    'height' : 250,",
+      "    'width' : 300,",
+      "    'params' : {}",
+      '  };',
+      '</script>',
+      '<script src="https://bicea.org/22/14ab84bb631fc528da7f4068bbf16386"></script>',
+      '</body>',
+      '</html>',
+    ].join('\n');
+  }, []);
+
   return (
     <div className="mt-2.5 flex flex-col items-center justify-center pb-1">
       <div
         id="adsterra-300x250-slot"
         data-adsterra-zone="300x250"
-        className="w-[300px] h-[250px] rounded-2xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/80 dark:bg-[#0F1626]/75 backdrop-blur-md shadow-xs flex flex-col items-center justify-center p-5 text-center select-none"
+        className="w-[300px] h-[250px] rounded-xl border border-slate-200/80 dark:border-[#24304D]/80 bg-white/80 dark:bg-[#0F1626]/75 backdrop-blur-md shadow-2xs overflow-hidden flex items-center justify-center"
       >
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400">
-          <ShieldCheck className="h-5 w-5" aria-hidden="true" />
-        </div>
-        <p className="mt-3 text-xs font-bold tracking-tight text-slate-900 dark:text-[#EAF0FF]">
-          {t.adSlot.title}
-        </p>
-        <p className="mt-1.5 text-[11px] leading-relaxed text-slate-500 dark:text-[#94A3B8] max-w-[230px]">
-          {t.adSlot.subtitle}
-        </p>
-        <span className="mt-3 inline-flex items-center rounded-md border border-slate-200/80 dark:border-[#2B3757] bg-slate-50/80 dark:bg-[#161F33]/80 px-2.5 py-0.5 font-mono text-[10px] font-semibold text-slate-500 dark:text-[#94A3B8]">
-          300 × 250 · Adsterra
-        </span>
+        <iframe
+          title="Adsterra 300x250 Banner"
+          srcDoc={iframeSrcDoc}
+          width={300}
+          height={250}
+          scrolling="no"
+          sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
+          className="w-[300px] h-[250px] border-0 block overflow-hidden"
+        />
       </div>
 
-      <p className="mt-1.5 text-center text-[11px] font-medium text-slate-500 dark:text-[#94A3B8]">
+      <p className="mt-1 text-center text-[9.5px] font-medium text-slate-500 dark:text-[#94A3B8]">
         {t.adSlot.caption}
       </p>
     </div>
